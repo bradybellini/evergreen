@@ -14,4 +14,4 @@ class Config(commands.Cog):
 
 def setup(client):
     client.add_cog(Config())
-    print('Config Cog loaded \n---------------------')
+    print('@COG: Config Cog loaded \n---------------------')

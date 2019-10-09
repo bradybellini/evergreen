@@ -28,9 +28,10 @@ from discord.ext import commands
 
 log = logging.getLogger('discord')
 log.setLevel(logging.INFO)
-handler = logging.FileHandler(filename='rewrite.log',encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename='marvin.log',encoding='utf-8', mode='w')
 log.addHandler(handler)
 
+# Load in keys.json and config.json
 with open('keys.json', 'r') as rk, open('config.json', 'r') as rc:
     keys, config = json.load(rk), json.load(rc)
 
@@ -39,7 +40,7 @@ client = commands.Bot(command_prefix=config['prefix'], owner_id=config['ownerid'
 
 @client.event
 async def on_ready():
-    print(f'@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
+    print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
         if filename.endswith('py'):
