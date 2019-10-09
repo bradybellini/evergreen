@@ -10,6 +10,8 @@ class Meta(commands.Cog):
     @commands.command(hidden=True, aliases=['kill', 'stop'])
     @commands.is_owner()
     async def kill_bot(self, ctx):
+        await ctx.send('Shutting down...')
+        await ctx.send('Goodbye')
         await self.client.logout()
 
     @commands.command()
