@@ -5,27 +5,13 @@ import logging
 import datetime
 from discord.ext import commands
 
+#########################################
+#                                       #
+#             Meta Stuff                #
+#                                       #
+#########################################
 
-# class Marvin(commands.Bot):
-
-#     async def on_ready(self):
-#         print('Logged on as', self.user)
-#         await Marvin.change_presence(self, activity=discord.Game
-#                                      ('hellomarvin.org'))
-    
-#     # @Marvin.command(hidden=True, aliases=['kill', 'stop'])
-#     # async def kill_bot(self, ctx):
-#     #     await Marvin.logout()
-
-
-# command_prefix = 'm.'
-# description = 'Hello, I am Marvin'
-# owner_id = 101563945462026240
-# bot = Marvin(command_prefix=command_prefix, description=description,
-#              owner_id=owner_id)
-# bot.run(discord_apikey)
-
-
+# Basic logging @TODO: expand on logging
 log = logging.getLogger('discord')
 log.setLevel(logging.INFO)
 handler = logging.FileHandler(filename='marvin.log',encoding='utf-8', mode='w')
@@ -41,6 +27,10 @@ client = commands.Bot(command_prefix=config['prefix'], owner_id=config['ownerid'
 @client.event
 async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
+
+    # Set game Marvin is playing
+    await client.change_presence(activity=discord.Game('hellomarvin.org'))
+
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
         if filename.endswith('py'):
