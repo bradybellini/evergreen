@@ -13,7 +13,7 @@ from discord.ext import commands
 
 # Basic logging @TODO: expand on logging
 log = logging.getLogger('discord')
-log.setLevel(logging.INFO)
+log.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='marvin.log',encoding='utf-8', mode='w')
 log.addHandler(handler)
 
