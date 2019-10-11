@@ -10,7 +10,7 @@ class Moderation(commands.Cog, name='Moderation Commands'):
     @commands.command()
     async def purge(self, ctx, *, amount:int=None):
         try:
-            if amount is None:
+            if not amount:
                 # add default error embed here
                 await ctx.send('User must specify the number of messages for Marvin to delete')
             else:
@@ -22,18 +22,22 @@ class Moderation(commands.Cog, name='Moderation Commands'):
     @commands.has_permissions(kick_members=True)
     @commands.command()
     async def kick(self, ctx, user:discord.Member, *, reason=None):
-            # Add in missing required arg error for user
-        if user.guild_permissions.kick_members:
-            if not reason:
-                await ctx.guild.kick(user=user, reason='No reason provided')
-                # insert embed with user kicked and reason for kicking
-            else:
-                await ctx.guild.kick(user=user, reason=reason)
-                # insert embed with user kicked and reason for kicking
+        if not reason:
+            await ctx.guild.kick(user=user, reason='No reason provided')
+            # insert embed with user kicked and reason for kicking
         else:
-            pass
-            # error embed saying that the user has equal or more permission than then so they cannot kick them
+            await ctx.guild.kick(user=user, reason=reason)
+            # insert embed with user kicked and reason for kicking
 
+    @kick.error
+    async def kick_error(self, ctx, error):
+        # add error for trying to kick someone of equal or greater permissions and thats it for perms
+        embed = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed.set_author(name=f"{error}", url="https://discordapp.com")
+        if isinstance(error, commands.BadArgument):
+            await ctx.send(embed=embed)
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(Moderation(client))
