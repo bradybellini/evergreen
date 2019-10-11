@@ -45,15 +45,36 @@ class Moderation(commands.Cog, name='Moderation Commands'):
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
-    async def ban(self, ctx, user:discord.Member, *, reason=None):
-        await ctx.guild.ban(user=user, reason=reason)
-        await ctx.send(f'{user} has been banned')
-
+    async def ban(self, ctx, member:discord.Member, *, reason=None):
+        await ctx.guild.ban(user=member, reason=reason)
+        await ctx.send(f'{member} has been banned')
 
     @ban.error
     async def ban_error(self, ctx, error):
         # add error for trying to banning someone of equal or greater permissions and thats it for perms
         embed = discord.Embed(title="Try: m.ban [user] <reason>", colour=0xd95454)
+        embed.set_author(name=f"{error}", url="https://discordapp.com")
+        if isinstance(error, commands.BadArgument):
+            await ctx.send(embed=embed)
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=embed)
+
+    @commands.has_permissions(ban_members=True)
+    @commands.command()
+    async def unban(self, ctx, member:discord.Member, *, reason=None):
+        banned_users = await ctx.guild.bans()
+        member_name, member_discriminator = member.split('#')
+        for banned_entry in banned_users:
+            user = banned_entry.user
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user, reason=reason)
+                await ctx.send(f'Unbanned {user.name}#{user.discriminator}')
+                return
+
+    @unban.error
+    async def unban_error(self, ctx, error):
+        # add error for trying to banning someone of equal or greater permissions and thats it for perms
+        embed = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
