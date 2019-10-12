@@ -3,7 +3,7 @@ import datetime
 from discord.ext import commands
 
 
-class Meta(commands.Cog):
+class Meta(commands.Cog, name="meta"):
 
     def __init__(self, client):
         self.client = client
