@@ -24,12 +24,15 @@ with open('keys.json', 'r') as rk, open('config.json', 'r') as rc:
 client = commands.Bot(command_prefix=config['prefix'], owner_id=config['ownerid'], description="Hello, I am Marvin. I look forward to your company. \n Please visit hellomarvin.org for any furthur help")
 
 
+
 @client.event
 async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
 
     # Set game Marvin is playing
     await client.change_presence(activity=discord.Game('m.help'))
+
+    client.remove_command('help')
 
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
