@@ -17,12 +17,13 @@ class Meta(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx, ping=None):
+        """: Check latency to Marvin"""
         if ping == None:
             await ctx.send(f'Pong! Latency to Marvin: `{round(self.client.latency * 1000)}ms`')
         else:
             await ctx.send('no ping for you')
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def support(self, ctx):
         embed = discord.Embed(colour=0xff7b,)
         embed.timestamp =  datetime.datetime.utcnow()
