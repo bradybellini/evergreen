@@ -38,10 +38,15 @@ class Moderation(commands.Cog, name='Moderation Commands'):
         # add error for trying to kick someone of equal or greater permissions and thats it for perms
         embed = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
+        missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
+        elif isinstance(missing_perm, discord.errors.Forbidden):
+            await ctx.send(embed=embed_forb)
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
@@ -51,13 +56,17 @@ class Moderation(commands.Cog, name='Moderation Commands'):
 
     @ban.error
     async def ban_error(self, ctx, error):
-        # add error for trying to banning someone of equal or greater permissions and thats it for perms
         embed = discord.Embed(title="Try: m.ban [user] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
+        missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
+        elif isinstance(missing_perm, discord.errors.Forbidden):
+            await ctx.send(embed=embed_forb)
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
@@ -73,13 +82,17 @@ class Moderation(commands.Cog, name='Moderation Commands'):
 
     @unban.error
     async def unban_error(self, ctx, error):
-        # add error for trying to banning someone of equal or greater permissions and thats it for perms
         embed = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
+        missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
+        elif isinstance(missing_perm, discord.errors.Forbidden):
+            await ctx.send(embed=embed_forb)
 
 def setup(client):
     client.add_cog(Moderation(client))

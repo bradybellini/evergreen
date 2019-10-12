@@ -29,7 +29,7 @@ async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
 
     # Set game Marvin is playing
-    await client.change_presence(activity=discord.Game('hellomarvin.org'))
+    await client.change_presence(activity=discord.Game('m.help'))
 
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
