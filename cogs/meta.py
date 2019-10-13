@@ -34,6 +34,12 @@ class Meta(commands.Cog, name="meta"):
         embed.add_field(name="Another way to support", value="share marvin invite link!")
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def guildowner(self, ctx):
+        guild_owner = ctx.guild.owner
+        # owner_member = 
+        await ctx.send(guild_owner)
+
 def setup(client):
     client.add_cog(Meta(client))
     print('@COG: Meta Cog loaded \n---------------------')
