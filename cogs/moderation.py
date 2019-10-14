@@ -37,9 +37,9 @@ class Moderation(commands.Cog, name='moderation'):
 
     @kick.error
     async def kick_error(self, ctx, error):
-        embed = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
-        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
         missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
@@ -58,9 +58,9 @@ class Moderation(commands.Cog, name='moderation'):
 
     @ban.error
     async def ban_error(self, ctx, error):
-        embed = discord.Embed(title="Try: m.ban [user] <reason>", colour=0xd95454)
+        embed = discord.Embed(title="Try: m.ban [member] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
-        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
         missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
@@ -85,11 +85,11 @@ class Moderation(commands.Cog, name='moderation'):
 
     @unban.error
     async def unban_error(self, ctx, error):
-        embed = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
+        embed = discord.Embed(title="Try: m.unban [member] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
-        embed_forb = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
+        embed_forb = discord.Embed(title="Try: m.unban [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
-        missing_perm = getattr(error, "original")
+        missing_perm = getattr(error, "original", error)
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
