@@ -87,7 +87,7 @@ class Moderation(commands.Cog, name='moderation'):
     async def unban_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
         embed.set_author(name=f"{error}", url="https://discordapp.com")
-        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
+        embed_forb = discord.Embed(title="Try: m.unban [user] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
         missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
