@@ -18,7 +18,7 @@ class Meta(commands.Cog, name="meta"):
     @commands.command()
     async def ping(self, ctx, ping=None):
         """: Check latency to Marvin"""
-        if ping == None:
+        if not ping:
             await ctx.send(f'Pong! Latency to Marvin: `{round(self.client.latency * 1000)}ms`')
         else:
             await ctx.send('no ping for you')
