@@ -11,6 +11,12 @@ class Tickets(commands.Cog, name="tickets"):
     async def ticket(self, ctx):
         pass
 
+    @commands.has_permissions(administrator=True)
+    @ticket.command()
+    async def panel(self, ctx, name=None):
+        await ctx.send('new panel')
+
+
 # edit embed to change color based on ticket status maybe
 # add reactions to control ticket status and reponse
     @ticket.command()
@@ -31,6 +37,9 @@ class Tickets(commands.Cog, name="tickets"):
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Tickets(client))
