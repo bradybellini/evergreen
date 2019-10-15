@@ -10,7 +10,7 @@ class Tickets(commands.Cog, name="tickets"):
     def __init__(self, client):
         self.client = client
         self.loop = asyncio.get_event_loop()
-        self.credentials = 'postgresql://marvinclient:' + pgpswd + '@private-pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
+        self.credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
 
     @commands.group(invoke_without_command=True)
     async def ticket(self, ctx):
@@ -54,4 +54,3 @@ class Tickets(commands.Cog, name="tickets"):
 def setup(client):
     client.add_cog(Tickets(client))
     print('@COG: Ticket Cog loaded \n---------------------')
-    
