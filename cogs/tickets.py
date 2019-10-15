@@ -11,7 +11,7 @@ class Tickets(commands.Cog, name="tickets"):
         self.client = client
         self.loop = asyncio.get_event_loop()
         self.credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
-
+# DO private networking is not working from droplet to db
     @commands.group(invoke_without_command=True)
     async def ticket(self, ctx):
         connect = await asyncpg.connect(self.credentials)
