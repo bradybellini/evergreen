@@ -3,6 +3,7 @@ import json
 import os
 import logging
 import datetime
+from apikeys import discordapi
 from discord.ext import commands
 
 #########################################
@@ -85,4 +86,4 @@ async def reload(ctx, extension):
 
 
 # Run bot with api key
-client.run(keys['discordapi'])
+client.run(discordapi)
