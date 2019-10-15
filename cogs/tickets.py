@@ -10,14 +10,15 @@ class Tickets(commands.Cog, name="tickets"):
     def __init__(self, client):
         self.client = client
         self.loop = asyncio.get_event_loop()
-        self.credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
+        # self.credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
 # DO private networking is not working from droplet to db
     @commands.group(invoke_without_command=True)
     async def ticket(self, ctx):
-        connect = await asyncpg.connect(self.credentials)
-        values = await connect.fetch('''SELECT * FROM guilds''')
-        await ctx.send(values[0]['guild_id'])
-        await connect.close()
+        guild_id = await self.client.pg_conn.fetch('''SELECT * FROM guilds''')
+        # connect = await asyncpg.connect(self.credentials)
+        # values = await connect.fetch('''SELECT * FROM guilds''')
+        await ctx.send(guild_id[0]['guild_id'])
+        # await connect.close()
 
 
 

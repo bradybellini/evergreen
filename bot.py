@@ -3,6 +3,9 @@ import json
 import os
 import logging
 import datetime
+import asyncpg
+import asyncio
+from apikeys import pgpswd
 from apikeys import discordapi
 from discord.ext import commands
 
@@ -24,6 +27,10 @@ with open('config.json', 'r') as rc:
 
 client = commands.Bot(command_prefix=config['prefix'], owner_id=config['ownerid'], description="Hello, I am Marvin. I look forward to your company. \n Please visit hellomarvin.org for any furthur help")
 
+
+async def create_db_pool():
+    credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
+    client.pg_conn = await asyncpg.create_pool(credentials)
 
 
 @client.event
@@ -84,6 +91,8 @@ async def reload(ctx, extension):
         print(f'{extension} cog could not be reloaded')
         raise e
 
+
+client.loop.run_until_complete(create_db_pool())
 
 # Run bot with api key
 client.run(discordapi)
