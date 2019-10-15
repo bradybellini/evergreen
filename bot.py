@@ -19,8 +19,8 @@ handler = logging.FileHandler(filename='marvin.log',encoding='utf-8', mode='w')
 log.addHandler(handler)
 
 # Load in keys.json and config.json
-with open('keys.json', 'r') as rk, open('config.json', 'r') as rc:
-    keys, config = json.load(rk), json.load(rc)
+with open('config.json', 'r') as rc:
+    config = json.load(rc)
 
 client = commands.Bot(command_prefix=config['prefix'], owner_id=config['ownerid'], description="Hello, I am Marvin. I look forward to your company. \n Please visit hellomarvin.org for any furthur help")
 
