@@ -1,4 +1,7 @@
 import discord
+import asyncpg
+import asyncio
+from apikeys import pgpswd
 from datetime import datetime
 from discord.ext import commands
 
@@ -6,10 +9,17 @@ class Tickets(commands.Cog, name="tickets"):
     """Ticket commands"""
     def __init__(self, client):
         self.client = client
+        self.loop = asyncio.get_event_loop()
+        self.credentials = 'postgresql://marvinclient:' + pgpswd + '@private-pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
 
     @commands.group(invoke_without_command=True)
     async def ticket(self, ctx):
-        pass
+        connect = await asyncpg.connect(self.credentials)
+        values = await connect.fetch('''SELECT * FROM guilds''')
+        await ctx.send(values[0]['guild_id'])
+        await connect.close()
+
+
 
     @commands.has_permissions(administrator=True)
     @ticket.command()
