@@ -37,7 +37,7 @@ async def on_ready():
 
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
-        if filename.endswith('py'):
+        if filename.endswith('py') and not filename.startswith('_'):
             try:
                 client.load_extension(f'cogs.{filename[:-3]}')
             except Exception as e:
