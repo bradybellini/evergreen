@@ -1,5 +1,6 @@
 import discord
 import datetime
+import argparse
 from discord.ext import commands
 
 
@@ -39,6 +40,15 @@ class Meta(commands.Cog, name="meta"):
         guild_owner = ctx.guild.owner
         # owner_member = 
         await ctx.send(guild_owner)
+
+
+# Look into testing out argparse more for complex commands
+    # @commands.command()
+    # async def argtest(self, ctx, test=None):
+    #     parser = argparse.ArgumentParser()
+    #     parser.add_argument("z")
+    #     args = parser.parse_args(test)
+    #     await ctx.send(args.z)
 
 def setup(client):
     client.add_cog(Meta(client))
