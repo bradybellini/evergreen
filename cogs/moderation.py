@@ -38,7 +38,7 @@ class Moderation(commands.Cog, name='moderation'):
     @kick.error
     async def kick_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
-        embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed.set_author(name=f"{error.user}", url="https://discordapp.com")
         embed_forb = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
         missing_perm = getattr(error, "original")
