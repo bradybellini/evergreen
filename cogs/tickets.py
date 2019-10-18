@@ -13,7 +13,8 @@ class Tickets(commands.Cog, name="tickets"):
         # self.credentials = 'postgresql://marvinclient:' + pgpswd + '@pgs-marvin-sfo2-1-do-user-4855641-0.db.ondigitalocean.com:25060/marvin?sslmode=require'
 # DO private networking is not working from droplet to db
     @commands.group(invoke_without_command=True)
-    async def ticket(self, ctx):
+    async def ticket(self, ctx, content=None):
+        await self.client.pg_conn.execute('''INSERT INTO guilds()''')
         guild_id = await self.client.pg_conn.fetch('''SELECT * FROM guilds''')
         # connect = await asyncpg.connect(self.credentials)
         # values = await connect.fetch('''SELECT * FROM guilds''')
