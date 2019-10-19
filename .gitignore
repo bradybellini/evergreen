@@ -14,8 +14,8 @@ pipfile
 .lock
 
 
-.db
-.sqlite
+*.db
+*.sqlite
 # C extensions
 *.so
 
