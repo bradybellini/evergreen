@@ -13,6 +13,9 @@ apikeys.py
 pipfile
 .lock
 
+
+.db
+.sqlite
 # C extensions
 *.so
 
