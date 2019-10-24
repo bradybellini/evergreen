@@ -1,4 +1,4 @@
 discord.py==1.2.3
 requests==2.*
 asyncpg==0.19.*
-aiosqlite==0.3.*
+aiosqlite==0.10.*
