@@ -11,7 +11,7 @@ class Tickets(commands.Cog, name="tickets"):
     def __init__(self, client):
         self.client = client
         self.loop = asyncio.get_event_loop()
-        self.credentials = 'postgresql://doadmin:' + pgpswd + '@vergreen-psgsql-sf2-do-user-4855641-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require'
+        self.credentials = 'postgresql://doadmin:' + pgpswd + '@evergreen-psgsql-sf2-do-user-4855641-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require'
 
 # DO private networking is not working from droplet to db
     @commands.group(invoke_without_command=True)
