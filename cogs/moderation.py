@@ -16,7 +16,7 @@ class Moderation(commands.Cog, name='moderation'):
     @purge.error
     async def purge_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.purge [message amount]", colour=0xd95454)
-        embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed.set_author(name=f"{type(error)}", url="https://discordapp.com")
         embed_badarg = discord.Embed(title="Try: m.purge [message amount]", colour=0xd95454)
         embed_badarg.set_author(name="Message amount must be a number.", url="https://discordapp.com")
         if isinstance(error, commands.MissingRequiredArgument):
@@ -38,16 +38,16 @@ class Moderation(commands.Cog, name='moderation'):
     @kick.error
     async def kick_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
-        embed.set_author(name=f"{error.user}", url="https://discordapp.com")
+        embed.set_author(name=f"{error}", url="https://discordapp.com")
         embed_forb = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
-        missing_perm = getattr(error, "original")
+        # missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
-        elif isinstance(missing_perm, discord.errors.Forbidden):
-            await ctx.send(embed=embed_forb)
+        # elif isinstance(missing_perm, discord.errors.Forbidden):
+        #     await ctx.send(embed=embed_forb)
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
