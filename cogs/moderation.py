@@ -67,7 +67,7 @@ class Moderation(commands.Cog, name='moderation'):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
-        elif isinstance(missing_perm, discord.errors.Forbidden):
+        elif isinstance(missing_perm, commands.MissingPermissions):
             await ctx.send(embed=embed_forb)
 
     @commands.has_permissions(ban_members=True)
