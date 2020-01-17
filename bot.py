@@ -39,7 +39,7 @@ async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
 
     # Set game Marvin is playing
-    await client.change_presence(activity=discord.Game('m.help'))
+    await client.change_presence(activity=discord.Game('e.help'))
 
     # client.remove_command('help')
 
@@ -49,7 +49,7 @@ async def on_ready():
             try:
                 client.load_extension(f'cogs.{filename[:-3]}')
             except Exception as e:
-                print(f'{filename} cog can not be loaded')
+                print(f'#### {filename} cog can not be loaded ####')
                 raise e
 
 #########################################

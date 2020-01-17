@@ -26,6 +26,7 @@ class Meta(commands.Cog, name="meta"):
 
     @commands.command(hidden=True)
     async def support(self, ctx):
+        """: Support the development of Evergreen"""
         embed = discord.Embed(colour=0xff7b,)
         embed.timestamp =  datetime.datetime.utcnow()
         embed.set_author(name="Support the Development of Marvin!", url="https://discordapp.com", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
