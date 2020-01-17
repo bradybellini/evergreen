@@ -62,13 +62,13 @@ class Moderation(commands.Cog, name='moderation'):
         embed.set_author(name=f"{error}", url="https://discordapp.com")
         embed_forb = discord.Embed(title="Try: m.kick [member] <reason>", colour=0xd95454)
         embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
-        missing_perm = getattr(error, "original")
+        # missing_perm = getattr(error, "original")
         if isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
-        elif isinstance(missing_perm, commands.MissingPermissions):
-            await ctx.send(embed=embed_forb)
+        # elif isinstance(missing_perm, commands.MissingPermissions):
+        #     await ctx.send(embed=embed_forb)
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
