@@ -30,7 +30,7 @@ client = commands.Bot(command_prefix='e.', owner_id=101563945462026240, descript
 #mess around with pooling size and when innactive connections should be terminiated.
 #Look at the asyncpg docs with connection pooling. This needs to be optimized because I think it will have alot to do with the repsonse speed.
 async def create_db_pool():
-    credentials = 'postgresql://evergreen:' + pgpswd + '@psql-sfo2-01-do-user-4855641-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require'
+    credentials = 'postgresql://evergreen:' + pgpswd + '@psql-sfo2-01-do-user-4855641-0.db.ondigitalocean.com:25060/evergreen?sslmode=require'
     client.pg_conn = await asyncpg.create_pool(dsn=credentials, min_size=2, max_size=22)
 
 
