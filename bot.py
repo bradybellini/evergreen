@@ -5,7 +5,7 @@ import logging
 import datetime
 import asyncpg
 import asyncio
-from apikeys import pgpswd
+# from apikeys import pgpswd
 from apikeys import discordapi
 from discord.ext import commands
 
@@ -25,13 +25,13 @@ log.addHandler(handler)
 # with open('config.json', 'r') as rc:
 #     config = json.load(rc)
 
-client = commands.Bot(command_prefix='e.', owner_id=101563945462026240, description="change this")
+client = commands.Bot(command_prefix='m.', owner_id=101563945462026240, description="change this")
 
 #mess around with pooling size and when innactive connections should be terminiated.
 #Look at the asyncpg docs with connection pooling. This needs to be optimized because I think it will have alot to do with the repsonse speed.
-async def create_db_pool():
-    credentials = 'postgresql://evergreen:' + pgpswd + '@psql-sfo2-01-do-user-4855641-0.db.ondigitalocean.com:25060/evergreen?sslmode=require'
-    client.pg_conn = await asyncpg.create_pool(dsn=credentials, min_size=2, max_size=22)
+# async def create_db_pool():
+#     credentials = 'postgresql://evergreen:' + pgpswd + '@psql-sfo2-01-do-user-4855641-0.db.ondigitalocean.com:25060/evergreen?sslmode=require'
+#     client.pg_conn = await asyncpg.create_pool(dsn=credentials, min_size=2, max_size=22)
 
 
 @client.event
@@ -39,7 +39,7 @@ async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
 
     # Set game Marvin is playing
-    await client.change_presence(activity=discord.Game('e.help'))
+    await client.change_presence(activity=discord.Game('m.help'))
 
     # client.remove_command('help')
 
@@ -93,7 +93,7 @@ async def reload(ctx, extension):
         raise e
 
 
-client.loop.run_until_complete(create_db_pool())
+# client.loop.run_until_complete(create_db_pool())
 
 # Run bot with api key
 client.run(discordapi)
