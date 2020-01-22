@@ -26,20 +26,11 @@ class Meta(commands.Cog, name="meta"):
 
     @commands.command(hidden=True)
     async def support(self, ctx):
-        """: Support the development of Evergreen"""
-        embed = discord.Embed(colour=0xff7b,)
-        embed.timestamp =  datetime.datetime.utcnow()
-        embed.set_author(name="Support the Development of Marvin!", url="https://discordapp.com", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
-        embed.set_footer(text="footer text", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
-        embed.add_field(name="Get Marvin Prime!", value="Get premium features like cool and cool!")
-        embed.add_field(name="Get free digital ocean money!", value="use this link and get free digital ocean money!")
-        embed.add_field(name="Another way to support", value="share marvin invite link!")
-        await ctx.send(embed=embed)
+        pass
 
     @commands.command()
     async def guildowner(self, ctx):
         guild_owner = ctx.guild.owner
-        # owner_member = 
         await ctx.send(guild_owner)
 
 
