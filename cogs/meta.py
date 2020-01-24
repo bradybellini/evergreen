@@ -1,6 +1,6 @@
 import discord
 import datetime
-import argparse
+import aiosqlite
 from discord.ext import commands
 
 
@@ -23,6 +23,18 @@ class Meta(commands.Cog, name="meta"):
             await ctx.send(f'Pong! Latency to Marvin: `{round(self.client.latency * 1000)}ms`')
         else:
             await ctx.send('no ping for you')
+
+    @commands.command()
+    async def addguild(self, ctx):
+        db = await aiosqlite.connect('main.db')
+        cursor = await db.cursor()
+        sql = ('INSERT INTO guilds(guild_id, guild_owner) VALUES(?,?)')
+        val = (str(ctx.guild.id), str(ctx.guild.owner.id))
+        await cursor.execute(sql,val)
+        await db.commit()
+        await cursor.close()
+        await db.close()
+
 
     @commands.command(hidden=True)
     async def support(self, ctx):
