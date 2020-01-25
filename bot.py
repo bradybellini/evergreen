@@ -1,11 +1,7 @@
 import discord
-import json
 import os
 import logging
 import datetime
-import asyncpg
-import asyncio
-# from apikeys import pgpswd
 from apikeys import discordapi
 from discord.ext import commands
 
