@@ -12,13 +12,15 @@ class Tickets(commands.Cog, name="tickets"):
         self.client = client
         # self.loop = asyncio.get_event_loop()
 
-    @commands.group(invoke_without_command=True)
-    async def ticket(self, ctx, content=None):
+    @commands.group(invoke_without_command=True, aliases=['tickets', 't'])
+    async def ticket(self, ctx):
         pass
-        # db = await aiosqlite.connect('evergreen.db')
 
+    @commands.has_permissions(administrator=True)
+    @commands.guild_only()
     @ticket.command()
     async def setchannel(self, ctx):
+        "Sets the channel new tickets are sent to"
         db = await aiosqlite.connect('main.db')
         cursor = await db.cursor()
         sql = ('UPDATE guilds SET ticket_channel = ? WHERE guild_id = ?')
@@ -31,36 +33,37 @@ class Tickets(commands.Cog, name="tickets"):
 # UPDATE guilds SET ticket_channel = ? WHERE guild_id = ?
 # INSERT INTO guilds(ticket_channel) WHERE guild_id = ?, VALUES(?)
     @commands.has_permissions(administrator=True)
+    @commands.guild_only()
     @ticket.command()
     async def panel(self, ctx, name=None):
+        "Create a new ticket panel"
         await ctx.send('new panel')
 
 
-# edit embed to change color based on ticket status maybe
-# add reactions to control ticket status and reponse
-# add in the message ID and find a way to get the message Id and send the message and update it with ticket id, just need to find the order
-# edit embed message after it was sent to change the color to match the status of the ticket.
-# might need to change ticket context to not have guild id be checked if we want tickets sent via dms
+# this is not going to happen at the moment, its better to send a new message because they wont get a notification otherwise : edit embed to change color based on ticket status maybe
+# not going to happen as I feel like it will make people not want to repsond to a ticket : add reactions to control ticket status and reponse
+# fixed only for this fork as its only used in one server : might need to change ticket context to not have guild id be checked if we want tickets sent via dms
     @ticket.command()
     async def new(self, ctx, *, content):
+        "Create a new ticket"
         db = await aiosqlite.connect('main.db')
         cursor = await db.cursor()
         try:
             ticket_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
             created = int(datetime.utcnow().timestamp())
-            sql = ('INSERT INTO tickets(ticket_id, guild_id, author, content, created) VALUES(?,?,?,?,?)')
-            val = (ticket_id, str(ctx.guild.id), str(ctx.message.author.id), str(content), created)
+            sql = ('INSERT INTO tickets(ticket_id, author, content, created) VALUES(?,?,?,?)')
+            val = (ticket_id, str(ctx.message.author.id), str(content), created)
             await cursor.execute(sql,val)
             await db.commit()
         except:
             ticket_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
             created = int(datetime.utcnow().timestamp())
-            sql = ('INSERT INTO tickets(ticket_id, guild_id, author, content, created) VALUES(?,?,?,?,?)')
-            val = (ticket_id, str(ctx.guild.id), str(ctx.message.author.id), str(content), created)
+            sql = ('INSERT INTO tickets(ticket_id, author, content, created) VALUES(?,?,?,?)')
+            val = (ticket_id, str(ctx.message.author.id), str(content), created)
             await cursor.execute(sql,val)
             await db.commit()
 
-        embed = discord.Embed(title=f"New Ticket - {ticket_id}", colour=0x90ff)
+        embed = discord.Embed(title=f"New Ticket - {ticket_id}", colour=0xfd70)
         embed.add_field(name="Ticket author", value=f"{ctx.message.author}")
         embed.add_field(name="Content", value=f"{content}", inline=False)
         embed.add_field(name="Status", value="Open", inline=False)
@@ -69,7 +72,7 @@ class Tickets(commands.Cog, name="tickets"):
         embed.add_field(name="Response Date", value=f"none", inline=False)
         embed.add_field(name="Created", value=f"{datetime.fromtimestamp(created)} UTC", inline=False)
         sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
-        val = (str(ctx.guild.id),)
+        val = (str(610914837039677471),)
         await cursor.execute(sql,val)
         channel_id = await cursor.fetchone()
         await cursor.close()
@@ -78,6 +81,35 @@ class Tickets(commands.Cog, name="tickets"):
         await channel.send(embed=embed)
         await ctx.message.author.send(embed=embed)
 
+# Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
+
+    @commands.has_permissions(administrator=True)
+    @ticket.command(aliases=['r', 'reply'])
+    async def respond(self, ctx, ticket_id, content):
+        "Reply/Repsond to a ticket"
+        db = await aiosqlite.connect('main.db')
+        response_date = int(datetime.utcnow().timestamp())
+        cursor = await db.cursor()
+        # try:
+        sql = ('UPDATE tickets SET response = ?, responder = ?, response_date = ? WHERE ticket_id = ?')
+        val = (str(content), str(ctx.message.author.id), response_date, str(ticket_id))
+        await cursor.execute(sql,val)
+        # except Exception as e:
+        #     await ctx.send(e)
+        # sql = ('SELECT author FROM tickets WHERE ticket_id = ?')
+        # val = (ticket_id,)
+        # await cursor.execute(sql,val)
+        # user_id = await cursor.fetchone()
+        # user_id_int = int(user_id[0])
+        sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
+        val = (str(610914837039677471),)
+        await cursor.execute(sql,val)
+        channel_id = await cursor.fetchone()
+        await cursor.close()
+        await db.close()
+        channel = self.client.get_channel(int(channel_id[0]))
+        # await ctx.message.user_id_int.send('someone responded to your ticket')
+        await channel.send(ticket_id)
 
     @new.error
     async def new_ticket_error(self, ctx, error):
