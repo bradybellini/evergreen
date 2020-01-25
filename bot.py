@@ -21,18 +21,7 @@ log.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='marvin.log',encoding='utf-8', mode='w')
 log.addHandler(handler)
 
-# Load in keys.json and config.json
-# with open('config.json', 'r') as rc:
-#     config = json.load(rc)
-
-client = commands.Bot(command_prefix='m.', owner_id=101563945462026240, description="change this")
-
-#mess around with pooling size and when innactive connections should be terminiated.
-#Look at the asyncpg docs with connection pooling. This needs to be optimized because I think it will have alot to do with the repsonse speed.
-# async def create_db_pool():
-#     credentials = 'postgresql://evergreen:' + pgpswd + '@psql-sfo2-01-do-user-4855641-0.db.ondigitalocean.com:25060/evergreen?sslmode=require'
-#     client.pg_conn = await asyncpg.create_pool(dsn=credentials, min_size=2, max_size=22)
-
+client = commands.Bot(command_prefix='m.', owner_id=101563945462026240, description="Marvin is here to serve you.")
 
 @client.event
 async def on_ready():
