@@ -15,7 +15,10 @@ class OnMessage(commands.Cog, name='On Message Listeners and Events'):
 
     @commands.Cog.listener()
     async def on_message(self, message:discord.Message):
-        if message.author == self.client.user.id: #or message.author.guild_permissions.manage_messages:
+        if discord.ChannelType.private:
+            return
+            
+        if message.author == self.client.user.id or message.author.guild_permissions.manage_messages:
             return
         
         if message.content.startswith('m.ticket') and message.channel.type == discord.ChannelType.text:
