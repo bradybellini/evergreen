@@ -82,10 +82,10 @@ class Tickets(commands.Cog, name="tickets"):
         await ctx.message.author.send(embed=embed)
 
 # Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
-
-    @commands.has_permissions(administrator=True)
-    @ticket.command(aliases=['r', 'reply'])
-    async def respond(self, ctx, ticket_id, content):
+# aliases=['r', 'reply']
+    # @commands.has_permissions(administrator=True)
+    @ticket.command()
+    async def respond(self, ctx, ticket_id, *,content):
         "Reply/Repsond to a ticket"
         db = await aiosqlite.connect('main.db')
         response_date = int(datetime.utcnow().timestamp())
@@ -109,8 +109,19 @@ class Tickets(commands.Cog, name="tickets"):
         await db.close()
         channel = self.client.get_channel(int(channel_id[0]))
         # await ctx.message.user_id_int.send('someone responded to your ticket')
-        await channel.send(ticket_id)
+        # await channel.send(ticket_id)
 
+    @ticket.command()
+    async def status(self, ctx, ticket_id, *, content):
+        "Change the status of a ticket"
+        db = await aiosqlite.connect('main.db')
+        cursor = await db.cursor()
+        sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
+        val = (str(content), str(ticket_id))
+        await cursor.execute(sql,val)
+        await cursor.close()
+        await db.close()
+        
     @new.error
     async def new_ticket_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
