@@ -1,4 +1,6 @@
 import discord
+import asyncio
+import httpx
 from discord.ext import commands
 
 class Minecraft(commands.Cog, name='Minecraft commands'):
