@@ -36,13 +36,14 @@ async def on_ready():
             except Exception as e:
                 print(f'#### {filename} cog can not be loaded ####')
                 raise e
-    for filename in os.listdir('./cogs/events'):
-        if filename.endswith('py') and not filename.startswith('_'):
-            try:
-                client.load_extension(f'cogs.events.{filename[:-3]}')
-            except Exception as e:
-                print(f'#### {filename} cog can not be loaded ####')
-                raise e
+    #not using at the moment
+    # for filename in os.listdir('./cogs/events'):
+    #     if filename.endswith('py') and not filename.startswith('_'):
+    #         try:
+    #             client.load_extension(f'cogs.events.{filename[:-3]}')
+    #         except Exception as e:
+    #             print(f'#### {filename} cog can not be loaded ####')
+    #             raise e
 #########################################
 #                                       #
 #         Cog Related Commands          #
