@@ -21,7 +21,7 @@ class Tickets(commands.Cog, name="tickets"):
     @ticket.command()
     async def setchannel(self, ctx):
         "Sets the channel new tickets are sent to"
-        db = await aiosqlite.connect('main.db')
+        db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ('UPDATE guilds SET ticket_channel = ? WHERE guild_id = ?')
         val = ( str(ctx.channel.id), str(ctx.guild.id))
@@ -46,7 +46,7 @@ class Tickets(commands.Cog, name="tickets"):
     @ticket.command()
     async def new(self, ctx, *, content):
         "Create a new ticket"
-        db = await aiosqlite.connect('main.db')
+        db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         try:
             ticket_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
@@ -87,13 +87,15 @@ class Tickets(commands.Cog, name="tickets"):
     @ticket.command()
     async def respond(self, ctx, ticket_id, *,content):
         "Reply/Repsond to a ticket"
-        db = await aiosqlite.connect('main.db')
+        db = await aiosqlite.connect('marvin.db')
         response_date = int(datetime.utcnow().timestamp())
         cursor = await db.cursor()
-        # try:
-        sql = ('UPDATE tickets SET response = ?, responder = ?, response_date = ? WHERE ticket_id = ?')
+        sql = ("UPDATE tickets SET response = ? , responder = ? , response_date = ? WHERE ticket_id = ?")
         val = (str(content), str(ctx.message.author.id), response_date, str(ticket_id))
         await cursor.execute(sql,val)
+        # this god damn module wasnt working because I forgot to commit the fucking data. I spent hours trying to fix this.
+        # will clean up later
+        await db.commit()
         # except Exception as e:
         #     await ctx.send(e)
         # sql = ('SELECT author FROM tickets WHERE ticket_id = ?')
@@ -101,20 +103,20 @@ class Tickets(commands.Cog, name="tickets"):
         # await cursor.execute(sql,val)
         # user_id = await cursor.fetchone()
         # user_id_int = int(user_id[0])
-        sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
-        val = (str(610914837039677471),)
-        await cursor.execute(sql,val)
-        channel_id = await cursor.fetchone()
+        # sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
+        # val = (str(610914837039677471),)
+        # await cursor.execute(sql,val)
+        # channel_id = await cursor.fetchone()
         await cursor.close()
         await db.close()
-        channel = self.client.get_channel(int(channel_id[0]))
+        # channel = self.client.get_channel(int(channel_id[0]))
         # await ctx.message.user_id_int.send('someone responded to your ticket')
         # await channel.send(ticket_id)
 
     @ticket.command()
     async def status(self, ctx, ticket_id, *, content):
         "Change the status of a ticket"
-        db = await aiosqlite.connect('main.db')
+        db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
         val = (str(content), str(ticket_id))
