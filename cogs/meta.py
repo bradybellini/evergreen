@@ -12,6 +12,7 @@ class Meta(commands.Cog, name="meta"):
     @commands.command(hidden=True, aliases=['kill', 'stop'])
     @commands.is_owner()
     async def kill_bot(self, ctx):
+        ": Shuts down the bot on the server"
         await ctx.send('Shutting down...')
         await ctx.send('Goodbye')
         await self.client.logout()
@@ -26,7 +27,7 @@ class Meta(commands.Cog, name="meta"):
 
     @commands.command()
     async def addguild(self, ctx):
-        db = await aiosqlite.connect('main.db')
+        db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ('INSERT INTO guilds(guild_id, guild_owner) VALUES(?,?)')
         val = (str(ctx.guild.id), str(ctx.guild.owner.id))
@@ -42,6 +43,7 @@ class Meta(commands.Cog, name="meta"):
 
     @commands.command()
     async def guildowner(self, ctx):
+        ": displays the current owner of the current guild"
         guild_owner = ctx.guild.owner
         await ctx.send(guild_owner)
 
