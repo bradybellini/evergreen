@@ -93,25 +93,21 @@ class Tickets(commands.Cog, name="tickets"):
         sql = ("UPDATE tickets SET response = ? , responder = ? , response_date = ? WHERE ticket_id = ?")
         val = (str(content), str(ctx.message.author.id), response_date, str(ticket_id))
         await cursor.execute(sql,val)
-        # this god damn module wasnt working because I forgot to commit the fucking data. I spent hours trying to fix this.
-        # will clean up later
         await db.commit()
-        # except Exception as e:
-        #     await ctx.send(e)
-        # sql = ('SELECT author FROM tickets WHERE ticket_id = ?')
-        # val = (ticket_id,)
-        # await cursor.execute(sql,val)
-        # user_id = await cursor.fetchone()
-        # user_id_int = int(user_id[0])
-        # sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
-        # val = (str(610914837039677471),)
-        # await cursor.execute(sql,val)
-        # channel_id = await cursor.fetchone()
+        sql = ('SELECT author FROM tickets WHERE ticket_id = ?')
+        val = (ticket_id,)
+        await cursor.execute(sql,val)
+        user_id = await cursor.fetchone()
+        user_id_int = user_id[0]
+        sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
+        val = (str(610914837039677471),)
+        await cursor.execute(sql,val)
+        channel_id = await cursor.fetchone()
         await cursor.close()
         await db.close()
-        # channel = self.client.get_channel(int(channel_id[0]))
-        # await ctx.message.user_id_int.send('someone responded to your ticket')
-        # await channel.send(ticket_id)
+        channel = self.client.get_channel(int(channel_id[0]))
+        await user_id.send('someone responded to your ticket')
+        await channel.send(ticket_id)
 
     @ticket.command()
     async def status(self, ctx, ticket_id, *, content):
