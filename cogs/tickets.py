@@ -47,7 +47,14 @@ class Tickets(commands.Cog, name="tickets"):
         message = await ctx.send(embed=embed)
         await message.add_reaction('⛔')
         await message.add_reaction('🎟')
-        
+        db = await aiosqlite.connect('marvin.db')
+        cursor = await db.cursor()
+        sql = ("UPDATE guilds SET ticket_panel = ? WHERE guild_id = ?")
+        val = (str(message.id), str(610914837039677471))
+        await cursor.execute(sql,val)
+        await db.commit()
+        await cursor.close()
+        await db.close()
 
 
 # this is not going to happen at the moment, its better to send a new message because they wont get a notification otherwise : edit embed to change color based on ticket status maybe
