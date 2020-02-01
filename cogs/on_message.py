@@ -1,6 +1,4 @@
 import discord
-import datetime
-from discord import Message, TextChannel, Member, PartialEmoji
 from discord.ext import commands
 
 
