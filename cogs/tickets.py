@@ -82,9 +82,9 @@ class Tickets(commands.Cog, name="tickets"):
         await ctx.message.author.send(embed=embed)
 
 # Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
-# aliases=['r', 'reply']
-    # @commands.has_permissions(administrator=True)
-    @ticket.command()
+#
+    @commands.has_permissions(administrator=True)
+    @ticket.command(aliases=['r', 'reply'])
     async def respond(self, ctx, ticket_id, *,content):
         "Reply/Repsond to a ticket"
         db = await aiosqlite.connect('marvin.db')
@@ -98,7 +98,7 @@ class Tickets(commands.Cog, name="tickets"):
         val = (ticket_id,)
         await cursor.execute(sql,val)
         user_id = await cursor.fetchone()
-        user_id_int = user_id[0]
+        member_name = self.client.get_user(int(user_id[0]))
         sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
         val = (str(610914837039677471),)
         await cursor.execute(sql,val)
@@ -106,7 +106,7 @@ class Tickets(commands.Cog, name="tickets"):
         await cursor.close()
         await db.close()
         channel = self.client.get_channel(int(channel_id[0]))
-        await user_id.send('someone responded to your ticket')
+        await member_name.send('someone responded to your ticket')
         await channel.send(ticket_id)
 
     @ticket.command()
@@ -117,8 +117,10 @@ class Tickets(commands.Cog, name="tickets"):
         sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
         val = (str(content), str(ticket_id))
         await cursor.execute(sql,val)
+        await db.commit()
         await cursor.close()
         await db.close()
+        await ctx.send(f'Ticket `{ticket_id}` status has been changed to `{content}`')
         
     @new.error
     async def new_ticket_error(self, ctx, error):
