@@ -37,7 +37,17 @@ class Tickets(commands.Cog, name="tickets"):
     @ticket.command()
     async def panel(self, ctx, name=None):
         "Create a new ticket panel"
-        await ctx.send('new panel')
+        await ctx.send(file=discord.File('images/ticketbanner.png'))
+        embed = discord.Embed(colour=0x3ee688)
+        embed.timestamp = datetime.utcnow()
+        embed.set_author(name="InfinityCraft 2.∞ Ticket Module", icon_url="https://i.imgur.com/aCkiWNY.png")
+        embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        embed.add_field(name="How to report a player or staff member", value="React with `⛔` below and Marvin will send you a message with details. If you have not used the report command before, Marvin will give you specific directions after reacting.", inline=False)
+        embed.add_field(name="How to create a help ticket for other reasons", value="React with `🎟` below and Marvin will send a message with the details. Player and staff reports should not be filed with this command. This is for getting help with Discord or InfinityCraft 2.∞ related things.")
+        message = await ctx.send(embed=embed)
+        await message.add_reaction('⛔')
+        await message.add_reaction('🎟')
+        
 
 
 # this is not going to happen at the moment, its better to send a new message because they wont get a notification otherwise : edit embed to change color based on ticket status maybe
@@ -110,6 +120,7 @@ class Tickets(commands.Cog, name="tickets"):
         await member_name.send('someone responded to your ticket')
         await channel.send(ticket_id)
 
+    @commands.has_permissions(administrator=True)
     @ticket.command()
     async def status(self, ctx, ticket_id, *, content):
         "Change the status of a ticket"
