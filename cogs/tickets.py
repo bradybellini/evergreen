@@ -12,7 +12,7 @@ class Tickets(commands.Cog, name="tickets"):
         self.client = client
         # self.loop = asyncio.get_event_loop()
 
-    @commands.group(invoke_without_command=True, aliases=['tickets', 't'])
+    @commands.group(invoke_without_command=True, aliases=['tickets', 't', 'report'])
     async def ticket(self, ctx):
         pass
 
@@ -80,6 +80,7 @@ class Tickets(commands.Cog, name="tickets"):
         channel = self.client.get_channel(int(channel_id[0]))
         await channel.send(embed=embed)
         await ctx.message.author.send(embed=embed)
+        # await ctx.message.delete()
 
 # Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
 #
@@ -121,7 +122,10 @@ class Tickets(commands.Cog, name="tickets"):
         await cursor.close()
         await db.close()
         await ctx.send(f'Ticket `{ticket_id}` status has been changed to `{content}`')
-        
+
+
+
+
     @new.error
     async def new_ticket_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
