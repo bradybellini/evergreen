@@ -18,43 +18,45 @@ class Meta(commands.Cog, name="meta"):
         await self.client.logout()
 
     @commands.command()
+    @commands.cooldown(1, 120, type=commands.BucketType.user)
     async def ping(self, ctx, ping=None):
-        """: Check latency to Marvin"""
+        ": Check latency to Marvin"
         if not ping:
             await ctx.send(f'Pong! Latency to Marvin: `{round(self.client.latency * 1000)}ms`')
         else:
             await ctx.send('no ping for you')
 
-    @commands.command()
+    @commands.command(hidden=True)
+    @commands.is_owner()
     async def addguild(self, ctx):
+        ": Adds guild to db !Should not need to use!"
         db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ('INSERT INTO guilds(guild_id, guild_owner) VALUES(?,?)')
         val = (str(ctx.guild.id), str(ctx.guild.owner.id))
-        await cursor.execute(sql,val)
+        await cursor.execute(sql, val)
         await db.commit()
         await cursor.close()
         await db.close()
-
 
     @commands.command(hidden=True)
     async def support(self, ctx):
         pass
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def guildowner(self, ctx):
         ": displays the current owner of the current guild"
         guild_owner = ctx.guild.owner
         await ctx.send(guild_owner)
 
+    @ping.error
+    async def ping_error(self, ctx, error):
+        embed = discord.Embed(title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
+        embed.set_author(name=f"You are on a cooldown for this command!")
+        # time_left = int(error.retry_after//60)
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(embed=embed)
 
-# Look into testing out argparse more for complex commands
-    # @commands.command()
-    # async def argtest(self, ctx, test=None):
-    #     parser = argparse.ArgumentParser()
-    #     parser.add_argument("z")
-    #     args = parser.parse_args(test)
-    #     await ctx.send(args.z)
 
 def setup(client):
     client.add_cog(Meta(client))

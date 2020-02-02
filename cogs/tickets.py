@@ -42,8 +42,8 @@ class Tickets(commands.Cog, name="tickets"):
         embed.timestamp = datetime.utcnow()
         embed.set_author(name="InfinityCraft 2.∞ Ticket Module", icon_url="https://i.imgur.com/aCkiWNY.png")
         embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
-        embed.add_field(name="How to report a player or staff member", value="React with `⛔` below and Marvin will send you a message with details. If you have not used the report command before, Marvin will give you specific directions after reacting.", inline=False)
-        embed.add_field(name="How to create a help ticket for other reasons", value="React with `🎟` below and Marvin will send a message with the details. Player and staff reports should not be filed with this command. This is for getting help with Discord or InfinityCraft 2.∞ related things.")
+        embed.add_field(name="How to report a player or staff member", value="React with ⛔ below and Marvin will send you a message with details. If you have not used the report command before, Marvin will give you specific directions after reacting.", inline=False)
+        embed.add_field(name="How to create a help ticket for other reasons", value="React with 🎟 below and Marvin will send you a message with the details. Player and staff reports should not be filed with this command. This is for getting help with Discord or InfinityCraft 2.∞ related things. If you have not used the ticket command before, Marvin will give you specific directions after reacting.")
         message = await ctx.send(embed=embed)
         await message.add_reaction('⛔')
         await message.add_reaction('🎟')
@@ -61,6 +61,7 @@ class Tickets(commands.Cog, name="tickets"):
 # not going to happen as I feel like it will make people not want to repsond to a ticket : add reactions to control ticket status and reponse
 # fixed only for this fork as its only used in one server : might need to change ticket context to not have guild id be checked if we want tickets sent via dms
     @ticket.command()
+    @commands.cooldown(1, 3600, type=commands.BucketType.user)
     async def new(self, ctx, *, content):
         "Create a new ticket"
         db = await aiosqlite.connect('marvin.db')
@@ -97,11 +98,12 @@ class Tickets(commands.Cog, name="tickets"):
         channel = self.client.get_channel(int(channel_id[0]))
         await channel.send(embed=embed)
         await ctx.message.author.send(embed=embed)
+        await ctx.message.delete()
         # await ctx.message.delete()
 
 # Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
 #
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
     async def respond(self, ctx, ticket_id, *,content):
         "Reply/Repsond to a ticket"
@@ -147,13 +149,19 @@ class Tickets(commands.Cog, name="tickets"):
     @new.error
     async def new_ticket_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
-        embed.set_author(name=f"{error}", url="https://discordapp.com")
+        embed.set_author(name=f"{error}")
         embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
-        embed_forb.set_author(name="Missing Permissions", url="https://discordapp.com")
+        embed_forb.set_author(name="Missing Permissions")
+        embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
+        embed.set_author(name=f"{error}")
+        cooldown_embed = discord.Embed(title=f" Try again in {int(error.retry_after)//60} minutes.", colour=0xd95454)
+        cooldown_embed.set_author(name=f"You are on a cooldown for this command!")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(embed=cooldown_embed)
 
 
 def setup(client):

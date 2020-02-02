@@ -1,7 +1,7 @@
 import discord
 import asyncio
 import httpx
-import datetime
+from datetime import datetime
 from discord.ext import commands
 
 class Minecraft(commands.Cog, name='Minecraft commands'):
@@ -11,6 +11,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
 
 
     @commands.command()
+    @commands.cooldown(1, 120, type=commands.BucketType.user)
     async def mojang(self, ctx):
         ": Details about the status of various Mojang and Minecraft services"
         async with httpx.AsyncClient() as client:
@@ -36,7 +37,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         embed.add_field(name="api.mojang.com", value=f"{green if api =='green' else orange if api =='yellow' else red}")
         embed.add_field(name="textures.minecraft.net", value=f"{green if textures =='green' else orange if textures =='yellow' else red}", inline=False)
         embed.add_field(name="mojang.com", value=f"{green if mojang =='green' else orange if mojang =='yellow' else red}", inline=False)
-        embed.timestamp = datetime.datetime.utcnow()
+        embed.timestamp = datetime.utcnow()
         embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
 
@@ -51,6 +52,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         await ctx.send("```mc.gamersgrove.net```")
 
     @server.command()
+    @commands.cooldown(1, 120, type=commands.BucketType.user)
     async def status(self, ctx):
         ": Get the current status of InfinityCraft 2.∞"
         async with httpx.AsyncClient() as client:
@@ -67,12 +69,12 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         embed.add_field(name="Players", value=f"{players}", inline=False)
         # put on hold, list comprehension is having problems parsing thru json list or something. not high priority so whatever.
         # embed.add_field(name="Players Online", value=f"{players_online}", inline=False)
-        embed.timestamp = datetime.datetime.utcnow()
+        embed.timestamp = datetime.utcnow()
         embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
         
     #this is currently not working however it was working before on a different version of the api. It is def a jank way to do it (kinda) so might look into completely re making it
-    @server.command()
+    @server.command(hidden=True)
     @commands.is_owner()
     async def autoreload(self, ctx):
         await self.client.wait_until_ready()
@@ -87,12 +89,20 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
             embed.add_field(name="MOTD", value=f"{data['motd']['clean'][0]}", inline=False)
             embed.add_field(name="Status", value=f"{'Online' if data['online'] == True else 'Offline (Admins are aware, please do not ping.)'}", inline=False)
             embed.add_field(name="Players", value=f"{data['players']['online']}/{data['players']['max']}", inline=False)
-            embed.timestamp = datetime.datetime.utcnow()
+            embed.timestamp = datetime.utcnow()
             embed.set_footer(text="Last Updated ->")
             message =  await self.client.get_channel(672336514679832578).fetch_message(672339911952564234)
             await message.edit(embed=embed)
             await asyncio.sleep(60)
- 
+
+    @mojang.error
+    @status.error
+    async def status_error(self, ctx, error):
+        embed = discord.Embed(
+            title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
+        embed.set_author(name=f"You are on a cooldown for this command!")
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(Minecraft(client))
