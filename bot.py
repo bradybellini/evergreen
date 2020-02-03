@@ -24,7 +24,7 @@ async def on_ready():
     print(f'---------------------\n@READY: {client.user.name}: {datetime.datetime.now()}\n---------------------')
 
     # Set game Marvin is playing
-    await client.change_presence(activity=discord.Game('m.help'))
+    await client.change_presence(activity=discord.Game('Minecraft | m.help'))
 
     # client.remove_command('help')
 
