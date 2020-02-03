@@ -99,14 +99,13 @@ class Tickets(commands.Cog, name="tickets"):
         await channel.send(embed=embed)
         await ctx.message.author.send(embed=embed)
         await ctx.message.delete()
-        # await ctx.message.delete()
 
-# Response is not working. No errors are being thrown, but nothing is being inputed into the database, queuery seems to be right but I cant tell if that is the problem or not
-#
-    # @commands.has_permissions(administrator=True)
+
+    @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
     async def respond(self, ctx, ticket_id, *,content):
         "Reply/Repsond to a ticket"
+        ticket_id = ticket_id.upper()
         db = await aiosqlite.connect('marvin.db')
         response_date = int(datetime.utcnow().timestamp())
         cursor = await db.cursor()
@@ -114,11 +113,11 @@ class Tickets(commands.Cog, name="tickets"):
         val = (str(content), str(ctx.message.author.id), response_date, str(ticket_id))
         await cursor.execute(sql,val)
         await db.commit()
-        sql = ('SELECT author FROM tickets WHERE ticket_id = ?')
+        sql = ('SELECT author, content, created, status FROM tickets WHERE ticket_id = ?')
         val = (ticket_id,)
         await cursor.execute(sql,val)
-        user_id = await cursor.fetchone()
-        member_name = self.client.get_user(int(user_id[0]))
+        results = await cursor.fetchone()
+        member_name = self.client.get_user(int(results[0]))
         sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
         val = (str(610914837039677471),)
         await cursor.execute(sql,val)
@@ -126,25 +125,37 @@ class Tickets(commands.Cog, name="tickets"):
         await cursor.close()
         await db.close()
         channel = self.client.get_channel(int(channel_id[0]))
-        await member_name.send('someone responded to your ticket')
-        await channel.send(ticket_id)
+
+        embed = discord.Embed(title=f"New Reponse - {ticket_id}", colour=0xfd70)
+        embed.add_field(name="Ticket author", value=f"{ctx.message.author}")
+        embed.add_field(name="Content", value=f"{results[1]}", inline=False)
+        embed.add_field(name="Status", value=f"{results[3]}", inline=False)
+        embed.add_field(name="Response", value=f"{content}", inline=False)
+        embed.add_field(name="Response by", value=f"{ctx.message.author}", inline=False)
+        embed.add_field(name="Response Date", value=f"{datetime.fromtimestamp(response_date)} UTC", inline=False)
+        embed.add_field(name="Created", value=f"{datetime.fromtimestamp(results[2])} UTC", inline=False)
+        await member_name.send(embed=embed)
+        await channel.send(embed=embed)
 
     @commands.has_permissions(administrator=True)
     @ticket.command()
     async def status(self, ctx, ticket_id, *, content):
         "Change the status of a ticket"
+        ticket_id = ticket_id.upper()
         db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
+        sql = ('SELECT author, status FROM tickets WHERE ticket_id = ?')
+        val = (ticket_id,)
+        await cursor.execute(sql,val)
+        results = await cursor.fetchone()
         sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
         val = (str(content), str(ticket_id))
         await cursor.execute(sql,val)
         await db.commit()
         await cursor.close()
         await db.close()
+        await self.client.get_user(int(results[0])).send(f'The status of your ticket `{ticket_id}` has been changed from `{results[1]}` to `{content}` \n If you think this is wrong, double check the response, ask a staff member, or submit a new ticket.')
         await ctx.send(f'Ticket `{ticket_id}` status has been changed to `{content}`')
-
-
-
 
     @new.error
     async def new_ticket_error(self, ctx, error):
@@ -154,13 +165,13 @@ class Tickets(commands.Cog, name="tickets"):
         embed_forb.set_author(name="Missing Permissions")
         embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
         embed.set_author(name=f"{error}")
-        cooldown_embed = discord.Embed(title=f" Try again in {int(error.retry_after)//60} minutes.", colour=0xd95454)
-        cooldown_embed.set_author(name=f"You are on a cooldown for this command!")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.BadArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.CommandOnCooldown):
+            cooldown_embed = discord.Embed(title=f" Try again in {int(error.retry_after)//60} minutes.", colour=0xd95454)
+            cooldown_embed.set_author(name=f"You are on a cooldown for this command!")
             await ctx.send(embed=cooldown_embed)
 
 
