@@ -80,7 +80,7 @@ class Tickets(commands.Cog, name="tickets"):
             val = (ticket_id, str(ctx.message.author.id), str(content), created)
             await cursor.execute(sql,val)
             await db.commit()
-
+           
         embed = discord.Embed(title=f"New Ticket - {ticket_id}", colour=0xfd70)
         embed.add_field(name="Ticket author", value=f"{ctx.message.author}")
         embed.add_field(name="Content", value=f"{content}", inline=False)
@@ -100,6 +100,10 @@ class Tickets(commands.Cog, name="tickets"):
         await ctx.message.author.send(embed=embed)
         await ctx.message.delete()
 
+    @commands.has_permissions(administrator=True)
+    @ticket.command(aliases=['reset', 'resetcooldown'])
+    async def reset_cooldown(self, ctx, user: discord.Member):
+        self.client.get_command('ticket new').reset_cooldown(self.client.get_user(user))
 
     @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
