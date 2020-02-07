@@ -100,10 +100,12 @@ class Tickets(commands.Cog, name="tickets"):
         await ctx.message.author.send(embed=embed)
         await ctx.message.delete()
 
+
     @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['reset', 'resetcooldown'])
     async def reset_cooldown(self, ctx, user: discord.Member):
         self.client.get_command('ticket new').reset_cooldown(self.client.get_user(user))
+
 
     @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
