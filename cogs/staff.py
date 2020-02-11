@@ -32,7 +32,7 @@ class Staff(commands.Cog, name='Staff commands'):
         embed = discord.Embed(colour=0x74ff90, description="",)
         embed.set_author(name="InfinityCraft 2.∞ Staff Links")
         embed.add_field(
-            name="Important Links", value=f"Website: https://infinity.gamersgrove.net/ \nServer Server IP: mc.gamersgrove.net \nRaw IP: 208.87.97.11:25565 \nAdmin Panel: https://panel.gamersgrove.net/ \nRaw Panel IP: http://208.87.97.11:8080/", inline=False)
+            name="Important Links", value=f"Website: https://infinity.gamersgrove.net/ \nServer Server IP: mc.gamersgrove.net \nRaw IP: 208.87.97.11:25565 \nAdmin Panel: https://panel.gamersgrove.net/ \nRaw Panel IP: http://208.87.97.11:8080/ \n Branding: https://imgur.com/a/W1BdhVJ", inline=False)
         embed.timestamp = datetime.utcnow()
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
