@@ -16,7 +16,7 @@ class Staff(commands.Cog, name='Staff commands'):
     @staff.commands()
     async def links(self, ctx):
         ": Important Links for Staff"
-        embed = discord.Embed(colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
+        embed = discord.Embed(colour=0x74ff90, description="",)
         embed.set_author(name="InfinityCraft 2.∞ Staff Help")
         embed.add_field(
             name="Important Links", value=f"Website: https://infinity.gamersgrove.net/ \nServer Server IP: mc.gamersgrove.net \nRaw IP: 208.87.97.11 \nAdmin Panel: https://panel.gamersgrove.net/ \nRaw Panel IP: http://208.87.97.11:8080/", inline=False)
