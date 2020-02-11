@@ -14,13 +14,14 @@ class Tickets(commands.Cog, name="tickets"):
 
     @commands.group(invoke_without_command=True, aliases=['tickets', 't', 'report'])
     async def ticket(self, ctx):
+        ": Ticket Commands"
         pass
 
     @commands.has_permissions(administrator=True)
     @commands.guild_only()
     @ticket.command()
     async def setchannel(self, ctx):
-        "Sets the channel new tickets are sent to"
+        ": Sets the channel new tickets are sent to"
         db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ('UPDATE guilds SET ticket_channel = ? WHERE guild_id = ?')
@@ -36,7 +37,7 @@ class Tickets(commands.Cog, name="tickets"):
     @commands.guild_only()
     @ticket.command()
     async def panel(self, ctx, name=None):
-        "Create a new ticket panel"
+        ": Create a new ticket panel"
         await ctx.send(file=discord.File('images/ticketbanner.png'))
         embed = discord.Embed(colour=0x3ee688)
         embed.timestamp = datetime.utcnow()
@@ -61,9 +62,9 @@ class Tickets(commands.Cog, name="tickets"):
 # not going to happen as I feel like it will make people not want to repsond to a ticket : add reactions to control ticket status and reponse
 # fixed only for this fork as its only used in one server : might need to change ticket context to not have guild id be checked if we want tickets sent via dms
     @ticket.command()
-    @commands.cooldown(1, 3600, type=commands.BucketType.user)
+    @commands.cooldown(1, 1800, type=commands.BucketType.user)
     async def new(self, ctx, *, content):
-        "Create a new ticket"
+        ": Create a new ticket"
         db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         try:
@@ -110,7 +111,7 @@ class Tickets(commands.Cog, name="tickets"):
     @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
     async def respond(self, ctx, ticket_id, *,content):
-        "Reply/Repsond to a ticket"
+        ": Reply/Repsond to a ticket"
         ticket_id = ticket_id.upper()
         db = await aiosqlite.connect('marvin.db')
         response_date = int(datetime.utcnow().timestamp())
@@ -123,25 +124,30 @@ class Tickets(commands.Cog, name="tickets"):
         val = (ticket_id,)
         await cursor.execute(sql,val)
         results = await cursor.fetchone()
-        member_name = self.client.get_user(int(results[0]))
-        sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
-        val = (str(610914837039677471),)
-        await cursor.execute(sql,val)
-        channel_id = await cursor.fetchone()
-        await cursor.close()
-        await db.close()
-        channel = self.client.get_channel(int(channel_id[0]))
-
-        embed = discord.Embed(title=f"New Reponse - {ticket_id}", colour=0xfd70)
-        embed.add_field(name="Ticket author", value=f"{ctx.message.author}")
-        embed.add_field(name="Content", value=f"{results[1]}", inline=False)
-        embed.add_field(name="Status", value=f"{results[3]}", inline=False)
-        embed.add_field(name="Response", value=f"{content}", inline=False)
-        embed.add_field(name="Response by", value=f"{ctx.message.author}", inline=False)
-        embed.add_field(name="Response Date", value=f"{datetime.fromtimestamp(response_date)} UTC", inline=False)
-        embed.add_field(name="Created", value=f"{datetime.fromtimestamp(results[2])} UTC", inline=False)
-        await member_name.send(embed=embed)
-        await channel.send(embed=embed)
+        if not results:
+            embed = discord.Embed(
+                title=f"The Ticket `{ticket_id}` has not been found.", colour=0xd95454)
+            embed.set_author(name=f"No Ticket Found")
+            await ctx.send(embed=embed)
+        else:
+            member_name = self.client.get_user(int(results[0]))
+            sql = ('SELECT ticket_channel FROM guilds WHERE guild_id = ?')
+            val = (str(610914837039677471),)
+            await cursor.execute(sql,val)
+            channel_id = await cursor.fetchone()
+            await cursor.close()
+            await db.close()
+            channel = self.client.get_channel(int(channel_id[0]))
+            embed = discord.Embed(title=f"New Reponse - {ticket_id}", colour=0xfd70)
+            embed.add_field(name="Ticket author", value=f"{ctx.message.author}")
+            embed.add_field(name="Content", value=f"{results[1]}", inline=False)
+            embed.add_field(name="Status", value=f"{results[3]}", inline=False)
+            embed.add_field(name="Response", value=f"{content}", inline=False)
+            embed.add_field(name="Response by", value=f"{ctx.message.author}", inline=False)
+            embed.add_field(name="Response Date", value=f"{datetime.fromtimestamp(response_date)} UTC", inline=False)
+            embed.add_field(name="Created", value=f"{datetime.fromtimestamp(results[2])} UTC", inline=False)
+            await member_name.send(embed=embed)
+            await channel.send(embed=embed)
 
     @commands.has_permissions(administrator=True)
     @ticket.command()
@@ -154,14 +160,20 @@ class Tickets(commands.Cog, name="tickets"):
         val = (ticket_id,)
         await cursor.execute(sql,val)
         results = await cursor.fetchone()
-        sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
-        val = (str(content), str(ticket_id))
-        await cursor.execute(sql,val)
-        await db.commit()
-        await cursor.close()
-        await db.close()
-        await self.client.get_user(int(results[0])).send(f'The status of your ticket `{ticket_id}` has been changed from `{results[1]}` to `{content}` \n If you think this is wrong, double check the response, ask a staff member, or submit a new ticket.')
-        await ctx.send(f'Ticket `{ticket_id}` status has been changed to `{content}`')
+        if not results:
+            embed = discord.Embed(
+                title=f"The Ticket `{ticket_id}` has not been found.", colour=0xd95454)
+            embed.set_author(name=f"No Ticket Found")
+            await ctx.send(embed=embed)
+        else:
+            sql = ('UPDATE tickets SET status = ? WHERE ticket_id = ?')
+            val = (str(content), str(ticket_id))
+            await cursor.execute(sql,val)
+            await db.commit()
+            await cursor.close()
+            await db.close()
+            await self.client.get_user(int(results[0])).send(f'The status of your ticket `{ticket_id}` has been changed from `{results[1]}` to `{content}` \n If you think this is wrong, double check the response, ask a staff member, or submit a new ticket.')
+            await ctx.send(f'Ticket `{ticket_id}` status has been changed to `{content}`')
 
     @new.error
     async def new_ticket_error(self, ctx, error):
