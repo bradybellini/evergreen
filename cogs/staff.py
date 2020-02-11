@@ -10,9 +10,13 @@ class Staff(commands.Cog, name='Staff commands'):
     # @commands.has_permissions(administrator=True)
     @commands.group(invoke_without_command=True)
     async def staff(self, ctx):
-        ": Get the current status of InfinityCraft 2.∞"
-        embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com",
-                              description="```IP: mc.gamersgrove.net```",)
+        ": InfinityCraft 2.∞ Info for Staff"
+
+
+    @staff.commands()
+    async def links(self, ctx):
+        ": Important Links for Staff"
+        embed = discord.Embed(colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
         embed.set_author(name="InfinityCraft 2.∞ Staff Help")
         embed.add_field(
             name="Important Links", value=f"Website: https://infinity.gamersgrove.net/ \nServer Server IP: mc.gamersgrove.net \nRaw IP: 208.87.97.11 \nAdmin Panel: https://panel.gamersgrove.net/ \nRaw Panel IP: http://208.87.97.11:8080/", inline=False)
@@ -23,7 +27,6 @@ class Staff(commands.Cog, name='Staff commands'):
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
-
 
 def setup(client):
     client.add_cog(Staff(client))
