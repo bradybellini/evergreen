@@ -8,7 +8,7 @@ class Staff(commands.Cog, name='Staff commands'):
         self.client = client
 
     # @commands.has_permissions(administrator=True)
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=False)
     async def staff(self, ctx):
         ": Get the current status of InfinityCraft 2.∞"
         embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com",
