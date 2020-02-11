@@ -52,7 +52,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         await ctx.send("```mc.gamersgrove.net```")
 
     @server.command()
-    @commands.cooldown(1, 120, type=commands.BucketType.user)
+    @commands.cooldown(1, 30, type=commands.BucketType.user)
     async def status(self, ctx):
         ": Get the current status of InfinityCraft 2.∞"
         async with httpx.AsyncClient() as client:
@@ -61,7 +61,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         data = r.json()
         # players_online = ([players for players in data['players']['list']])
         players = (str(data['players']['online']) + '/' + str(data['players']['max'])) if data['online'] == True else None
-        embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com", description="```IP: mc.gamersgrove.net```",)
+        embed = discord.Embed(colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
         embed.set_thumbnail(url=f"{icon}")
         embed.set_author(name="InfinityCraft 2.∞ Status", url="http://mc.gamersgrove.net")
         embed.add_field(name="MOTD", value=f"{data['motd']['clean'][0] if data['online'] == True else None}", inline=False)
