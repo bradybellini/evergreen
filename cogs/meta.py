@@ -17,6 +17,7 @@ class Meta(commands.Cog, name="meta"):
         await ctx.send('Goodbye')
         await self.client.logout()
 
+
     @commands.command()
     @commands.cooldown(1, 120, type=commands.BucketType.user)
     async def ping(self, ctx, ping=None):
