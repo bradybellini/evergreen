@@ -19,7 +19,7 @@ class Meta(commands.Cog, name="meta"):
 
 
     @commands.command()
-    @commands.cooldown(1, 10a, type=commands.BucketType.user)
+    @commands.cooldown(1, 10, type=commands.BucketType.user)
     async def ping(self, ctx, ping=None):
         ": Check latency to Marvin"
         if not ping:
