@@ -4,11 +4,25 @@ import httpx
 from datetime import datetime
 from discord.ext import commands
 
+
 class Minecraft(commands.Cog, name='Minecraft commands'):
     """Minecraft related commands"""
+
     def __init__(self, client):
         self.client = client
 
+    @commands.command()
+    async def rules(self, ctx):
+        ": View the rules of the server"
+        embed = discord.Embed(colour=0x74ff90, title="InfinityCraft 2.∞ Rules",
+                              description="These rules appy both to the Discord, Minecraft, and other InfinityCraft 2.∞ entities unless otherwised stated.\nRules are subject to change without notice. It is up the the player(you) to keep updated with them.")
+        embed.add_field(name="**Minecraft Server Rules**",
+                        value="1. Do not spam the chat\n2. Do not use excessive explicit language towards other players\n3. Do not use derogatory, racist, or otherwise bigoted language\n4. Do not advertise. This includes: servers, websites, etc.. If you have something out would like to post in chat, ask a staff member\n5. Do not cheat in any way, using external mods or ingame exploits is not allowed\n6. Greifing is not allowed, but players are responsible for protecting their own property. See 'Land Calim instructions' using /landclaim\n7. Land Calims must be at least 100 blocks of the nearest person of notice. Except in cases where players have an agreement\n8. Do not create, or use AFK machines. If you are idle, use /afk", inline=False)
+        embed.add_field(name="**Discord Rules**",
+                        value="The use of `@everyone` or other rank tagging is strictly forbidden\nAny Minecraft Server rules that are relevant, such as spamming and language, apply in the Discord server as wel\n", inline=False)
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.cooldown(1, 120, type=commands.BucketType.user)
@@ -28,17 +42,27 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         green = ':green_circle: No issues'
         orange = ':orange_circle: Some issues'
         red = ':red_circle: Service Unavailable'
-        embed.set_author(name="Minecraft/Mojang Status", url="https://status.mojang.com/check")
-        embed.add_field(name="minecraft.net", value=f"{green if mcnet == 'green' else orange if mcnet == 'yellow' else red}", inline=False)
-        embed.add_field(name="session.minecraft.net", value=f"{green if sessions =='green' else orange if sessions =='yellow' else red}", inline=False)
-        embed.add_field(name="account.mojang.com", value=f"{green if account =='green' else orange if account =='yellow' else red}", inline=False)
-        embed.add_field(name="authserver.mojang.com", value=f"{green if auth =='green' else orange if auth =='yellow' else red}", inline=False)
-        embed.add_field(name="sessionserver.mojang.com", value=f"{green if sessionserver =='green' else orange if sessionserver =='yellow' else red}", inline=False)
-        embed.add_field(name="api.mojang.com", value=f"{green if api =='green' else orange if api =='yellow' else red}")
-        embed.add_field(name="textures.minecraft.net", value=f"{green if textures =='green' else orange if textures =='yellow' else red}", inline=False)
-        embed.add_field(name="mojang.com", value=f"{green if mojang =='green' else orange if mojang =='yellow' else red}", inline=False)
+        embed.set_author(name="Minecraft/Mojang Status",
+                         url="https://status.mojang.com/check")
+        embed.add_field(name="minecraft.net",
+                        value=f"{green if mcnet == 'green' else orange if mcnet == 'yellow' else red}", inline=False)
+        embed.add_field(name="session.minecraft.net",
+                        value=f"{green if sessions =='green' else orange if sessions =='yellow' else red}", inline=False)
+        embed.add_field(name="account.mojang.com",
+                        value=f"{green if account =='green' else orange if account =='yellow' else red}", inline=False)
+        embed.add_field(name="authserver.mojang.com",
+                        value=f"{green if auth =='green' else orange if auth =='yellow' else red}", inline=False)
+        embed.add_field(name="sessionserver.mojang.com",
+                        value=f"{green if sessionserver =='green' else orange if sessionserver =='yellow' else red}", inline=False)
+        embed.add_field(name="api.mojang.com",
+                        value=f"{green if api =='green' else orange if api =='yellow' else red}")
+        embed.add_field(name="textures.minecraft.net",
+                        value=f"{green if textures =='green' else orange if textures =='yellow' else red}", inline=False)
+        embed.add_field(
+            name="mojang.com", value=f"{green if mojang =='green' else orange if mojang =='yellow' else red}", inline=False)
         embed.timestamp = datetime.utcnow()
-        embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
 
     @commands.group(invoke_without_command=True)
@@ -60,20 +84,26 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         icon = 'https://api.mcsrvstat.us/icon/mc.gamersgrove.net'
         data = r.json()
         # players_online = ([players for players in data['players']['list']])
-        players = (str(data['players']['online']) + '/' + str(data['players']['max'])) if data['online'] == True else None
-        embed = discord.Embed(colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
+        players = (str(data['players']['online']) + '/' +
+                   str(data['players']['max'])) if data['online'] == True else None
+        embed = discord.Embed(
+            colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
         embed.set_thumbnail(url=f"{icon}")
-        embed.set_author(name="InfinityCraft 2.∞ Status", url="http://mc.gamersgrove.net")
-        embed.add_field(name="MOTD", value=f"{data['motd']['clean'][0] if data['online'] == True else None}", inline=False)
-        embed.add_field(name="Status", value=f"{'Online' if data['online'] == True else 'Offline (Admins are aware, please do not ping)'}", inline=False)
+        embed.set_author(name="InfinityCraft 2.∞ Status",
+                         url="http://mc.gamersgrove.net")
+        embed.add_field(
+            name="MOTD", value=f"{data['motd']['clean'][0] if data['online'] == True else None}", inline=False)
+        embed.add_field(
+            name="Status", value=f"{'Online' if data['online'] == True else 'Offline (Admins are aware, please do not ping)'}", inline=False)
         embed.add_field(name="Players", value=f"{players}", inline=False)
         # put on hold, list comprehension is having problems parsing thru json list or something. not high priority so whatever.
         # embed.add_field(name="Players Online", value=f"{players_online}", inline=False)
         embed.timestamp = datetime.utcnow()
-        embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
-        
-    #this is currently not working however it was working before on a different version of the api. It is def a jank way to do it (kinda) so might look into completely re making it
+
+    # this is currently not working however it was working before on a different version of the api. It is def a jank way to do it (kinda) so might look into completely re making it
     @server.command(hidden=True)
     @commands.is_owner()
     async def autoreload(self, ctx):
@@ -83,15 +113,20 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
                 r = await client.get('https://api.mcsrvstat.us/2/mc.gamersgrove.net')
             icon = 'https://api.mcsrvstat.us/icon/mc.gamersgrove.net'
             data = r.json()
-            embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com", description="```IP: mc.gamersgrove.net```",)
+            embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com",
+                                  description="```IP: mc.gamersgrove.net```",)
             embed.set_thumbnail(url=f"{icon}")
-            embed.set_author(name="InfinityCraft 2.∞ Status", url="http://mc.gamersgrove.net")
-            embed.add_field(name="MOTD", value=f"{data['motd']['clean'][0]}", inline=False)
-            embed.add_field(name="Status", value=f"{'Online' if data['online'] == True else 'Offline (Admins are aware, please do not ping.)'}", inline=False)
-            embed.add_field(name="Players", value=f"{data['players']['online']}/{data['players']['max']}", inline=False)
+            embed.set_author(name="InfinityCraft 2.∞ Status",
+                             url="http://mc.gamersgrove.net")
+            embed.add_field(
+                name="MOTD", value=f"{data['motd']['clean'][0]}", inline=False)
+            embed.add_field(
+                name="Status", value=f"{'Online' if data['online'] == True else 'Offline (Admins are aware, please do not ping.)'}", inline=False)
+            embed.add_field(
+                name="Players", value=f"{data['players']['online']}/{data['players']['max']}", inline=False)
             embed.timestamp = datetime.utcnow()
             embed.set_footer(text="Last Updated ->")
-            message =  await self.client.get_channel(672336514679832578).fetch_message(672339911952564234)
+            message = await self.client.get_channel(672336514679832578).fetch_message(672339911952564234)
             await message.edit(embed=embed)
             await asyncio.sleep(60)
 
@@ -103,6 +138,7 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         embed.set_author(name=f"You are on a cooldown for this command!")
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Minecraft(client))
