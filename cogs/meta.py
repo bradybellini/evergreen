@@ -50,6 +50,11 @@ class Meta(commands.Cog, name="meta"):
         guild_owner = ctx.guild.owner
         await ctx.send(guild_owner)
 
+    @commands.command
+    async def testmessage(self, ctx):
+        join_message = "Welcome! If you need help make sure to check out the #help channel or run the command `m.help` to get Marvin(me) to give you command help within the server. I may take some time to responde to your command so please be patient. I am a cactus after all. Make sure to run the command `/discord link` in Minecraft to link your Minecraft and discord account and follow the directions given. You should get the Voyager rank as well as some other perks. To submit a report or ticket, check out the #ticket channel. Last of all, make sure to follow all the rules posted in the #rules channel. If you have any further questions, feel free to ask a staff member or other members of the community."
+        await ctx.send(join_message)
+
     @ping.error
     async def ping_error(self, ctx, error):
         embed = discord.Embed(title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
@@ -57,6 +62,8 @@ class Meta(commands.Cog, name="meta"):
         # time_left = int(error.retry_after//60)
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(embed=embed)
+
+
 
 
 def setup(client):
