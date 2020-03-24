@@ -26,7 +26,7 @@ async def on_ready():
     # Set game Marvin is playing
     await client.change_presence(activity=discord.Game('Minecraft | m.help'))
 
-    # client.remove_command('help')
+    client.remove_command('help')
 
     # Initial load of Cog files
     for filename in os.listdir('./cogs'):
