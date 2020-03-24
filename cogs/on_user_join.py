@@ -11,18 +11,8 @@ class OnMemberJoin(commands.Cog, name='On Member Join Listeners and Events'):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        embed = discord.Embed(colour=0x74ff90, title="InfinityCraft 2.∞ Discord Help", description = "[] = required argument\n<> = optional argument\nThe `|` means you can use either word for the command.\nFor example to submit a ticket you can use `m.ticket` **or** `m.report`,\nwhich is shown below using `|`.")
-        embed.add_field(name = "**Ticket Help**",
-        value = "`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to Marvin.**")
-        embed.add_field(name = "**Server Info Help**",
-                        value = "`m.server status` - Displays whether the server is online with player count.\n`m.server ip` - Displays the server IP.")
-        embed.add_field(name = "Other Help",
-                        value = "`m.mojang` - Check the status of Mojang & Minecraft services.")
-        embed.timestamp=datetime.utcnow()
-        embed.set_footer(
-            text = "Marvin", icon_url = f'{self.client.user.avatar_url}')
-        await member.send(embed = embed)
-
+        join_message = "Welcome! If you need help make sure to check out the #help channel or run the command `m.help` to get Marvin(me) to give you command help within the server. I may take some time to responde to your command so please be patient. I am a cactus after all. Make sure to run the command `/discord link` in Minecraft to link your Minecraft and discord account and follow the directions given. You should get the Voyager rank as well as some other perks. To submit a report or ticket, check out the #ticket channel. Last of all, make sure to follow all the rules posted in the #rules channel. If you have any further questions, feel free to ask a staff member or other members of the community."
+        await member.send(join_message)
 
 
 def setup(client):
