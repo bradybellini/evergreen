@@ -22,8 +22,7 @@ class OnMessage(commands.Cog, name='On Message Listeners and Events'):
 
         # and message.channel.type == discord.ChannelType.text:
         if message.content.startswith('m.ticket ') or message.content.startswith('m.report '):
-            await message.delete()
-            await message.channel.send(f'{message.author.mention} Your ticket has been submitted, if you did not receive a DM from Marvin, let a staff member know. Please submit tickets and reports in a direct message with {self.client.mention} from now on.')
+            await message.channel.send(f'{message.author.mention} Your ticket has been submitted, if you did not receive a DM from Marvin, let a staff member know. Please submit tickets and reports in a direct message with {self.client.mention} from now on.'), message.delete()
 # 
 
 def setup(client):
