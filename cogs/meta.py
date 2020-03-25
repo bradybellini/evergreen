@@ -96,7 +96,7 @@ Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.ga
 3. Do not send direct messages to staff members unless otherwise instructed to, or you will be ignored
 4. Do not ping staff members, your question will eventually be answered. If it is an emegerncy, submit a ticket
 5. Do not post or send pornographic, illegal or other NSFW content
-6. Do not spam or abuse commands provided by {self.client.mention}
+6. Do not spam or abuse commands provided by {self.client.user.mention}
 
 Any Minecraft Server rules that are relevant, such as excessive explicit language, advertising, etc., apply in the Discord Server as well
 """
