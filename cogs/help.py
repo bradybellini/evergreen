@@ -13,7 +13,7 @@ class Help(commands.Cog, name="help"):
                               description="[] = required argument\n<> = optional argument\nThe `|` means you can use either word for the command.\nFor example to submit a ticket you can use `m.ticket` **or** `m.report`,\nwhich is shown below using `|`.", icon_url="https: // i.imgur.com/aCkiWNY.png")
         embed.set_author(name="InfinityCraft 2.∞ Discord Help", icon_url="https://i.imgur.com/aCkiWNY.png")
         embed.add_field(name="**Ticket Help**",
-                        value="`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to Marvin.**", inline=False)
+                        value=f"`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to {self.client.user.mention}.**", inline=False)
         embed.add_field(name="**Server Info Help**",
                         value="`m.server status` - Displays whether the server is online with player count.\n`m.server ip` - Displays the server IP.\n`m.rules` - List the Discord and Minecraft Server rules.", inline=False)
         embed.add_field(name="Other Help",
