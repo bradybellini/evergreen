@@ -53,7 +53,7 @@ class Meta(commands.Cog, name="meta"):
     @commands.command()
     async def welcomemessage(self, ctx):
         help_channel: TextChannel = self.client.get_channel(623702240523321356)
-        join_message = f""":small_orange_diamond: Welcome to InfinityCraft 2.∞! If you need help make sure to check out the {help_channel} channel or run the command `m.help` to get Marvin(me) to give you command help within the server. 
+        join_message = f""":small_orange_diamond: Welcome to InfinityCraft 2.∞! If you need help make sure to check out the {help_channel.mention} channel or run the command `m.help` to get Marvin(me) to give you command help within the server. 
 :small_orange_diamond: I may take some time to respond to your command so please be patient. I am a cactus after all. 
 :small_blue_diamond: Make sure to run the command `/discord link` in Minecraft to link your Minecraft and Discord account and follow the directions given. You should get the Voyager rank as well as some other perks. 
 :small_blue_diamond: To submit a report or ticket, check out the #ticket channel. 
