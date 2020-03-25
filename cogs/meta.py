@@ -73,14 +73,14 @@ Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.ga
         embed.add_field(name="**Minecraft Server Rules**",
                         value="1. Do not spam the chat\n2. Do not use excessive explicit language towards other players\n3. Do not use derogatory, racist, or otherwise bigoted language\n4. Do not advertise. This includes: servers, websites, etc.. If you have something out would like to post in chat, ask a staff member\n5. Do not cheat in any way, using external mods or ingame exploits is not allowed\n6. Greifing is not allowed, but players are responsible for protecting their own property. See 'Land Calim instructions' using /landclaim\n7. Land Calims must be at least 100 blocks of the nearest person of notice. Except in cases where players have an agreement\n8. Do not create, or use AFK machines. If you are idle, use /afk", inline=False)
         embed.add_field(name="**Discord Rules**",
-                        value="1. The use of `@everyone` or other rank tagging is strictly forbidden\n2. Do not spam any of the text channels\n3. Do not send direct messages to staff members unless otherwise instructed to, or you will be ignored\n4. Do not ping staff members, your question will eventually be answered. If it is an emegerncy, submit a ticket\n5. Do not post or send pornographic, illegal or other NSFW content\n\nAny Minecraft Server rules that are relevant, such as excessive explicit language, advertising, etc., apply in the Discord Server as well", inline=False)
+                        value="1. The use of `@everyone` or other rank tagging is strictly forbidden\n2. Do not spam any of the text channels\n3. Do not send direct messages to staff members unless otherwise instructed to, or you will be ignored\n4. Do not ping staff members, your question will eventually be answered. If it is an emegerncy, submit a ticket\n5. Do not post or send pornographic, illegal or other NSFW content\n6. Do not spam or abuse commands provided by Marvin\n\nAny Minecraft Server rules that are relevant, such as excessive explicit language, advertising, etc., apply in the Discord Server as well", inline=False)
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
 
     @commands.command(hidden=True)
     async def rulesnoformat(self, ctx):
-        rules_no_format = """**Minecraft Server Rules**
+        rules_no_format = f"""**Minecraft Server Rules**
 1. Do not spam the chat
 2. Do not use excessive explicit language towards other players
 3. Do not use derogatory, racist, or otherwise bigoted language
@@ -96,6 +96,7 @@ Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.ga
 3. Do not send direct messages to staff members unless otherwise instructed to, or you will be ignored
 4. Do not ping staff members, your question will eventually be answered. If it is an emegerncy, submit a ticket
 5. Do not post or send pornographic, illegal or other NSFW content
+6. Do not spam or abuse commands provided by {self.client.mention}
 
 Any Minecraft Server rules that are relevant, such as excessive explicit language, advertising, etc., apply in the Discord Server as well
 """
