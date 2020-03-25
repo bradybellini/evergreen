@@ -17,7 +17,6 @@ class Meta(commands.Cog, name="meta"):
         await ctx.send('Goodbye')
         await self.client.logout()
 
-
     @commands.command()
     @commands.cooldown(1, 10, type=commands.BucketType.user)
     async def ping(self, ctx, ping=None):
@@ -64,15 +63,27 @@ Website: https://infinity.gamersgrove.net/
 Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.gamersgrove.net"""
         await ctx.send(join_message)
 
+    @commands.command()
+    async def rules(self, ctx):
+        ": View the rules of the server"
+        embed = discord.Embed(colour=0x74ff90, title="InfinityCraft 2.∞ Rules",
+                              description="These rules appy both to the Discord, Minecraft, and other InfinityCraft 2.∞ entities unless otherwised stated.\nRules are subject to change without notice. It is up the the player(you) to keep updated with them.")
+        embed.add_field(name="**Minecraft Server Rules**",
+                        value="1. Do not spam the chat\n2. Do not use excessive explicit language towards other players\n3. Do not use derogatory, racist, or otherwise bigoted language\n4. Do not advertise. This includes: servers, websites, etc.. If you have something out would like to post in chat, ask a staff member\n5. Do not cheat in any way, using external mods or ingame exploits is not allowed\n6. Greifing is not allowed, but players are responsible for protecting their own property. See 'Land Calim instructions' using /landclaim\n7. Land Calims must be at least 100 blocks of the nearest person of notice. Except in cases where players have an agreement\n8. Do not create, or use AFK machines. If you are idle, use /afk", inline=False)
+        embed.add_field(name="**Discord Rules**",
+                        value="The use of `@everyone` or other rank tagging is strictly forbidden\nAny Minecraft Server rules that are relevant, such as spamming and language, apply in the Discord server as well\n", inline=False)
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        await ctx.send(embed=embed)
+
     @ping.error
     async def ping_error(self, ctx, error):
-        embed = discord.Embed(title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
+        embed = discord.Embed(
+            title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
         embed.set_author(name=f"You are on a cooldown for this command!")
         # time_left = int(error.retry_after//60)
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(embed=embed)
-
-
 
 
 def setup(client):
