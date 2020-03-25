@@ -10,7 +10,7 @@ class Help(commands.Cog, name="help"):
     @commands.command()
     async def help(self, ctx):
         embed = discord.Embed(colour=0x74ff90, title="InfinityCraft 2.∞ Discord Help",
-                              description="[] = required argument\n<> = optional argument\nThe `|` means you can use either word for the command.\nFor example to submit a ticket you can use `m.ticket` **or** `m.report`,\nwhich is shown below using `|`.")
+                              description="[] = required argument\n<> = optional argument\nThe `|` means you can use either word for the command.\nFor example to submit a ticket you can use `m.ticket` **or** `m.report`,\nwhich is shown below using `|`.", icon_url="https: // i.imgur.com/aCkiWNY.png")
         embed.add_field(name="**Ticket Help**",
                         value="`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to Marvin.**", inline=False)
         embed.add_field(name="**Server Info Help**",
