@@ -66,8 +66,10 @@ Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.ga
     @commands.command()
     async def rules(self, ctx):
         ": View the rules of the server"
-        embed = discord.Embed(colour=0x74ff90, title="InfinityCraft 2.∞ Rules",
+        embed = discord.Embed(colour=0x74ff90,
                               description="These rules appy both to the Discord, Minecraft, and other InfinityCraft 2.∞ entities unless otherwised stated.\nRules are subject to change without notice. It is up the the player(you) to keep updated with them.")
+        embed.set_author(name="InfinityCraft 2.∞ Rules",
+                         icon_url="https://i.imgur.com/aCkiWNY.png")
         embed.add_field(name="**Minecraft Server Rules**",
                         value="1. Do not spam the chat\n2. Do not use excessive explicit language towards other players\n3. Do not use derogatory, racist, or otherwise bigoted language\n4. Do not advertise. This includes: servers, websites, etc.. If you have something out would like to post in chat, ask a staff member\n5. Do not cheat in any way, using external mods or ingame exploits is not allowed\n6. Greifing is not allowed, but players are responsible for protecting their own property. See 'Land Calim instructions' using /landclaim\n7. Land Calims must be at least 100 blocks of the nearest person of notice. Except in cases where players have an agreement\n8. Do not create, or use AFK machines. If you are idle, use /afk", inline=False)
         embed.add_field(name="**Discord Rules**",
@@ -75,6 +77,29 @@ Discord Invite Link: https://discordapp.com/invite/v67aGnq or https://discord.ga
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
+
+    @commands.command(hidden=True)
+    async def rulesnoformat(self, ctx):
+        rules_no_format = """**Minecraft Server Rules**
+1. Do not spam the chat
+2. Do not use excessive explicit language towards other players
+3. Do not use derogatory, racist, or otherwise bigoted language
+4. Do not advertise. This includes: servers, websites, etc.. If you have something out would like to post in chat, ask a staff member
+5. Do not cheat in any way, using external mods or ingame exploits is not allowed
+6. Greifing is not allowed, but players are responsible for protecting their own property. See 'Land Calim instructions' using /landclaim
+7. Land Calims must be at least 100 blocks of the nearest person of notice. Except in cases where players have an agreement
+8. Do not create, or use AFK machines. If you are idle, use /afk 
+
+**Discord Server Rules**
+1. The use of `@everyone` or other rank tagging is strictly forbidden
+2. Do not spam any of the text channels
+3. Do not send direct messages to staff members unless otherwise instructed to, or you will be ignored
+4. Do not ping staff members, your question will eventually be answered. If it is an emegerncy, submit a ticket
+5. Do not post or send pornographic, illegal or other NSFW content
+
+Any Minecraft Server rules that are relevant, such as excessive explicit language, advertising, etc., apply in the Discord Server as well
+"""
+        await ctx.send(rules_no_format)
 
     @ping.error
     async def ping_error(self, ctx, error):
