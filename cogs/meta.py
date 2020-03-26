@@ -1,7 +1,7 @@
 import discord
 import datetime
 import aiosqlite
-from discord import TextChannel
+from discord import TextChannel, PartialEmoji
 from discord.ext import commands
 
 
@@ -40,9 +40,17 @@ class Meta(commands.Cog, name="meta"):
         await cursor.close()
         await db.close()
 
-    @commands.command(hidden=True)
-    async def support(self, ctx):
-        pass
+    @commands.command(alias=['credits'])
+    async def credit(self, ctx):
+        embed = discord.Embed(
+            colour=0x74ff90, description="We use some art and other content provided to us free as long as we credit the artist or author.")
+        embed.set_author(name="Credits and Attributions", icon_url="https://i.imgur.com/aCkiWNY.png")
+        embed.add_field(name=f"<:cactus:692803421769564275>",
+                        value="Cactus icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)")
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        await ctx.send(embed=embed)
 
     @commands.command(hidden=True)
     async def guildowner(self, ctx):
