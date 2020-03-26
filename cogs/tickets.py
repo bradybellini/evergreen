@@ -51,7 +51,7 @@ class Tickets(commands.Cog, name="tickets"):
         db = await aiosqlite.connect('marvin.db')
         cursor = await db.cursor()
         sql = ("UPDATE guilds SET ticket_panel = ? WHERE guild_id = ?")
-        val = (str(message.id), str(610914837039677471))
+        val = (str(message.id), str(ctx.guild.id))
         await cursor.execute(sql,val)
         await db.commit()
         await cursor.close()
@@ -99,6 +99,7 @@ class Tickets(commands.Cog, name="tickets"):
         channel = self.client.get_channel(int(channel_id[0]))
         await channel.send(embed=embed)
         await ctx.message.author.send(embed=embed)
+        # This is why the on_message event has not been triggering. Considering changing this to be handled in the on_message cog
         await ctx.message.delete()
 
 
