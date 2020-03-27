@@ -123,13 +123,15 @@ Any Minecraft Server rules that are relevant, such as excessive explicit languag
             673097926825738250)
         rules_channel: TextChannel = self.client.get_channel(
             622988649113583637)
-        feedback_channel: TextChannel = self.client.get_channel(int)
-        serverchat_channel: TextChannel = self.client.get_channel(int)
+        feedback_channel: TextChannel = self.client.get_channel(
+            670516861292773376)
+        serverchat_channel: TextChannel = self.client.get_channel(
+            623002232631328769)
         info_message = f""":small_orange_diamond: Welcome to InfinityCraft 2.∞! If you need help make sure to check out the {help_channel.mention} channel or run the command `m.help` to get Marvin(me) to give you command help within the server. 
 :small_orange_diamond: I may take some time to respond to your command so please be patient. I am a cactus after all. 
 :small_blue_diamond: Make sure to run the command `/discord link` in Minecraft to link your Minecraft and Discord account and follow the directions given. You should get the Voyager rank as well as some other perks. 
 :small_blue_diamond: To submit a report or ticket, check out the {ticket_channel.mention} channel. 
-:small_blue_diamond: If you think we should be doing something better or have a new idea, checkout the {feedback_channel.mention} channel. You can submit a new idea with the command `m.feedback new [content]` in a dm to {self.client.user.mention}, replacing [content] with your feedback or idea.
+:small_blue_diamond: If you think we should be doing something better or have a new idea, checkout the {feedback_channel.mention} channel. You can submit a new idea with the command `m.feedback new [content]` in a dm to {self.client.user.mention}, replacing `[content]` with your feedback or idea.
 :small_blue_diamond: The {serverchat_channel.mention} allows people in the Minecraft Server and Discord Server to chat with eachother. You must link your Discord and Minecraft account to have all of the features in that channel. Please do not use any bot commands in that channel.
 :small_blue_diamond: If you would like to donate to help out the server, you can do so at https://infinity.gamersgrove.net/shop/.
 :small_blue_diamond: Last of all, make sure to follow all the rules posted in the {rules_channel.mention} channel. You can also use the command `m.rules` to view all of the rules. 

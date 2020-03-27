@@ -48,7 +48,8 @@ class Feedback(commands.Cog, name="Feedback"):
             name=f"Feedback by {ctx.message.author.name}#{ctx.message.author.discriminator}  | {idea_id}", icon_url=f"{ctx.message.author.avatar_url}")
         embed.add_field(name="No Response", value="N/A")
         embed.timestamp = datetime.utcnow()
-        embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
 
         sql = ('SELECT feedback_channel FROM guilds WHERE guild_id = ?')
         val = (str(610914837039677471),)
@@ -57,7 +58,6 @@ class Feedback(commands.Cog, name="Feedback"):
         channel_id = await cursor.fetchone()
         channel = self.client.get_channel(int(channel_id[0]))
         feedback_message = await channel.send(embed=embed)
-        print(feedback_message, feedback_message.id, idea_id)
 
         sql = ('UPDATE feedback SET message_id = ? WHERE idea_id = ?')
         val = (str(feedback_message.id), str(idea_id))
