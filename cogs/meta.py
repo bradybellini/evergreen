@@ -40,7 +40,7 @@ class Meta(commands.Cog, name="meta"):
         await cursor.close()
         await db.close()
 
-    @commands.command(alias=['credits'])
+    @commands.command(aliases=['credits'])
     async def credit(self, ctx):
         embed = discord.Embed(
             colour=0x74ff90, description="We use some art and other content provided to us free as long as we credit the artist or author.")
@@ -116,8 +116,7 @@ Any Minecraft Server rules that are relevant, such as excessive explicit languag
 """
         await ctx.send(rules_no_format)
 
-
-    @commands.group(invoke_without_command=True, alias=['info'])
+    @commands.group(invoke_without_command=True, aliases=['info'])
     async def information(self, ctx):
         help_channel: TextChannel = self.client.get_channel(623702240523321356)
         ticket_channel: TextChannel = self.client.get_channel(

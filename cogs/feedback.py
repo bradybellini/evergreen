@@ -3,6 +3,7 @@ import aiosqlite
 import time
 import random
 import string
+from discord import Emoji, PartialEmoji
 from datetime import datetime
 from discord.ext import commands
 
@@ -13,7 +14,7 @@ class Feedback(commands.Cog, name="Feedback"):
     def __init__(self, client):
         self.client = client
 
-    @commands.group(invoke_without_command=True, alias=['suggest', 'fb', 'idea'])
+    @commands.group(invoke_without_command=True, aliases=['suggest', 'fb', 'idea'])
     async def feedback(self, ctx):
         pass
 
@@ -41,25 +42,32 @@ class Feedback(commands.Cog, name="Feedback"):
             val = (idea_id, str(ctx.message.author.id), str(content), created)
             await cursor.execute(sql, val)
             await db.commit()
+
         embed = discord.Embed(colour=0x74ff90, description=f"{content}")
-        embed.set_author(name=f"Feedback by {ctx.author} | {idea_id}", icon_url=f"{ctx.user.avatar_url}")
+        embed.set_author(
+            name=f"Feedback by {ctx.message.author.name}#{ctx.message.author.discriminator}  | {idea_id}", icon_url=f"{ctx.message.author.avatar_url}")
         embed.add_field(name="No Response", value="N/A")
-        embed.timestamp = datetime.datetime.utcnow()
+        embed.timestamp = datetime.utcnow()
         embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+
         sql = ('SELECT feedback_channel FROM guilds WHERE guild_id = ?')
         val = (str(610914837039677471),)
         await cursor.execute(sql, val)
+
         channel_id = await cursor.fetchone()
         channel = self.client.get_channel(int(channel_id[0]))
         feedback_message = await channel.send(embed=embed)
-        await feedback_message.add_reaction(':up_arrow') #Change this later
-        await feedback_message.add_reaction(':down_arrow')
+        print(feedback_message, feedback_message.id, idea_id)
+
         sql = ('UPDATE feedback SET message_id = ? WHERE idea_id = ?')
-        val = (str(feedback_message.id), idea_id)
+        val = (str(feedback_message.id), str(idea_id))
         await cursor.execute(sql, val)
         await db.commit()
         await cursor.close()
         await db.close()
+
+        await feedback_message.add_reaction('⬇️')
+        await feedback_message.add_reaction('⬆️')
         await ctx.message.delete()
 
     @commands.has_permissions(administrator=True)
