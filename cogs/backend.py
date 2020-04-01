@@ -6,8 +6,9 @@ import httpx
 from apikeys import ssh_secret, ssh_pass, ssh_user, ssh_ip, amp_pass, amp_url_base, amp_user
 from discord.ext import commands
 
-
 class Backend(commands.Cog, name="Server sided stuff"):
+
+    HEADERS = {'Accept': 'application/json, text/javascript','Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 
     def __init__(self, client):
         self.client = client
@@ -40,23 +41,50 @@ class Backend(commands.Cog, name="Server sided stuff"):
     @console.command()
     @commands.cooldown(1, 5, type=commands.BucketType.user)
     async def send(self, ctx, *, command):
-        headers = {
-            'Accept': 'application/json, text/javascript',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
         url = amp_url_base + 'Login'
         data = str({"username":f"{amp_user}","password":f"{amp_pass}","token":"","rememberMe":"true","SESSIONID":""})
         async with httpx.AsyncClient() as client:
-            r = await client.post(url, headers=headers, data=data)
+            r = await client.post(url, headers=HEADERS, data=data)
 
             url = amp_url_base + 'SendConsoleMessage'
             data = str({"message":f"""{command}""","SESSIONID": f"{r.json()['sessionID']}"})
-            r = await client.post(url, headers=headers, data=data)
+            r = await client.post(url, headers=HEADERS, data=data)
+
+
+    @commands.has_permissions(administrator=True)
+    @console.command()
+    @commands.cooldown(1, 5, type=commands.BucketType.user)
+    async def asmarvin(self, ctx, *, message):
+        url = amp_url_base + 'Login'
+        color = 'white'
+        as_marvin_msg = str(tellraw @a[{"text": "[", "color": "gold"}, {"text": "Marvin", "color": "green"}, {"text": "]", "color": "gold"}, {"text": ": ", "color": "white"}, {"text": f"{message}", "color": f"{color}"})
+        data = str({"username":f"{amp_user}","password":f"{amp_pass}","token":"","rememberMe":"true","SESSIONID":""})
+        async with httpx.AsyncClient() as client:
+            r = await client.post(url, headers=HEADERS, data=data)
+
+            url = amp_url_base + 'SendConsoleMessage'
+            data = str({"message": f"""{as_marvin_msg}""", "SESSIONID": f"{r.json()['sessionID']}"})
+            r = await client.post(url, headers=HEADERS, data=data)
+
 
 
     @backup.error
     async def backup_error(self, ctx, error):
         embed = discord.Embed(
+            title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
+        embed.set_author(name=f"You are on a cooldown for this command!")
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(embed=embed)
+
+    @asmarvin.error
+    async def asmarvin_error(self, ctx, error):
+        embed_ = discord.Embed(title="Try: m.console asmarvin [content]", colour=0xd95454)
+        embed.set_author(name=f"{error}")
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=embed)
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send(embed=embed)
+        embed= discord.Embed(
             title=f" Try again in {int(error.retry_after)} seconds.", colour=0xd95454)
         embed.set_author(name=f"You are on a cooldown for this command!")
         if isinstance(error, commands.CommandOnCooldown):
