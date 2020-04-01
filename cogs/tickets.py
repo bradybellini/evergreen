@@ -180,10 +180,6 @@ class Tickets(commands.Cog, name="tickets"):
     async def new_ticket_error(self, ctx, error):
         embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
         embed.set_author(name=f"{error}")
-        embed_forb = discord.Embed(title="Try: m.kick [user] <reason>", colour=0xd95454)
-        embed_forb.set_author(name="Missing Permissions")
-        embed = discord.Embed(title="Try: m.ticket new [content]", colour=0xd95454)
-        embed.set_author(name=f"{error}")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.BadArgument):
