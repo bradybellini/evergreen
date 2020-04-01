@@ -52,7 +52,6 @@ class Backend(commands.Cog, name="Server sided stuff"):
             url = amp_url_base + 'SendConsoleMessage'
             data = str({"message":f"""{command}""","SESSIONID": f"{r.json()['sessionID']}"})
             r = await client.post(url, headers=headers, data=data)
-            print(r.json())
 
 
     @backup.error
