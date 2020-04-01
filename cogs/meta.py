@@ -142,6 +142,12 @@ Website: https://infinity.gamersgrove.net/
 Discord Invite Link: https://discordapp.com/invite/v67aGnq"""
         await ctx.send(info_message)
 
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def announce(self, ctx,*, message):
+        announce_channel: TextChannel = self.client.get_channel(
+            622988343268999185)
+        await announce_channel.send(message)
 
     @ping.error
     async def ping_error(self, ctx, error):
