@@ -182,6 +182,21 @@ class Feedback(commands.Cog, name="Feedback"):
         await cursor.close()
         await db.close()
 
+    @new.error
+    async def new_feedback_error(self, ctx, error):
+        embed = discord.Embed(
+            title="Try: m.feedback new [content]", colour=0xd95454)
+        embed.set_author(name=f"{error}")
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=embed)
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send(embed=embed)
+        elif isinstance(error, commands.CommandOnCooldown):
+            cooldown_embed = discord.Embed(
+                title=f" Try again in {int(error.retry_after)//60} minutes.", colour=0xd95454)
+            cooldown_embed.set_author(
+                name=f"You are on a cooldown for this command!")
+            await ctx.send(embed=cooldown_embed)
 
 def setup(client):
     client.add_cog(Feedback(client))
