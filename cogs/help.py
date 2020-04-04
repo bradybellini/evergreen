@@ -16,7 +16,6 @@ class Help(commands.Cog, name="help"):
                         value=f"`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to {self.client.user.mention}.**", inline=False)
         embed.add_field(name="**Feedback Help**",
                         value=f"`m.feedback|suggest|idea|fb new [content]` - Submit feedback about the Minecraft Server, Discord Server, or anything else related..\n**Please use this command in a direct message to {self.client.user.mention}.**", inline=False)
-
         embed.add_field(name="**Server Info Help**",
                         value="`m.server status` - Displays whether the server is online with player count.\n`m.server ip` - Displays the server IP.\n`m.rules` - List the Discord and Minecraft Server rules.", inline=False)
         embed.add_field(name="Other Help",
