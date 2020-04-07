@@ -57,7 +57,7 @@ class Backend(commands.Cog, name="Server sided stuff"):
     async def asmarvin(self, ctx, *, message):
         url = amp_url_base + 'Login'
         color = 'white'
-        as_marvin_msg = str(tellraw @a[{"text": "[", "color": "gold"}, {"text": "Marvin", "color": "green"}, {"text": "]", "color": "gold"}, {"text": ": ", "color": "white"}, {"text": f"{message}", "color": f"{color}"})
+        as_marvin_msg = str(tellraw @a[{"text": "[", "color": "gold"}, {"text": "Marvin", "color": "green"}, {"text": "]", "color": "gold"}, {"text": ": ", "color": "white"}, {"text": f"{message}", "color": f"{color}"}])
         data = str({"username":f"{amp_user}","password":f"{amp_pass}","token":"","rememberMe":"true","SESSIONID":""})
         async with httpx.AsyncClient() as client:
             r = await client.post(url, headers=HEADERS, data=data)
