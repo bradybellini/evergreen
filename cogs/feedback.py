@@ -112,7 +112,7 @@ class Feedback(commands.Cog, name="Feedback"):
             embed.set_author(
                 name=f"{str(results[3]).upper()} | Feedback by {member_name.name}#{member_name.discriminator}  | {idea_id}", icon_url=f"{member_name.avatar_url}")
             embed.add_field(
-                name=f"Reponse by {ctx.message.author.name}#{ctx.message.author.discriminator}", value=f"{content if content else 'No Reason given'}")
+                name=f"Response by {ctx.message.author.name}#{ctx.message.author.discriminator}", value=f"{content if content else 'No Reason given'}")
             embed.timestamp = datetime.utcnow()
             embed.set_footer(
                 text="Marvin", icon_url=f'{self.client.user.avatar_url}')
@@ -160,7 +160,7 @@ class Feedback(commands.Cog, name="Feedback"):
             embed.set_author(
                 name=f"{str(results[3]).upper()} | Feedback by {member_name.name}#{member_name.discriminator}  | {idea_id}", icon_url=f"{member_name.avatar_url}")
             embed.add_field(
-                name=f"Reponse by {responder_name.name}#{responder_name.discriminator}", value=f"{str(results[5]) if str(results[5]) else 'No Reason given'}")
+                name=f"Response by {responder_name.name}#{responder_name.discriminator}", value=f"{str(results[5]) if str(results[5]) else 'No Reason given'}")
             embed.timestamp = datetime.utcnow()
             embed.set_footer(
                 text="Marvin", icon_url=f'{self.client.user.avatar_url}')

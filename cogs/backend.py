@@ -78,7 +78,7 @@ class Backend(commands.Cog, name="Server sided stuff"):
 
     @asmarvin.error
     async def asmarvin_error(self, ctx, error):
-        embed_ = discord.Embed(title="Try: m.console asmarvin [content]", colour=0xd95454)
+        embed = discord.Embed(title="Try: m.console asmarvin [content]", colour=0xd95454)
         embed.set_author(name=f"{error}")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=embed)
