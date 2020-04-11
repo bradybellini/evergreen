@@ -12,6 +12,17 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         self.client = client
 
     @commands.command()
+    async def vote(self, ctx):
+        embed = discord.Embed(colour=0x74ff90, description="",)
+        embed.set_author(name="InfinityCraft 2.∞ Voting Links")
+        embed.add_field(
+            name="Voting Links", value=f"[Voting Site 1](https://cutt.ly/vote-pmc)\n[Voting Site 2](https://cutt.ly/vote-mcsorg)\n[Voting Site 3](https://cutt.ly/vote-mcsl)\n[Voting Site 4](https://cutt.ly/vote-mcsnet)", inline=False)
+        embed.timestamp = datetime.utcnow()
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        await ctx.send(embed=embed)
+
+    @commands.command()
     @commands.cooldown(1, 120, type=commands.BucketType.user)
     async def mojang(self, ctx):
         ": Details about the status of various Mojang and Minecraft services"
