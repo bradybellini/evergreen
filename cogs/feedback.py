@@ -67,12 +67,12 @@ class Feedback(commands.Cog, name="Feedback"):
         await cursor.close()
         await db.close()
 
-        await feedback_message.add_reaction('⬇️')
         await feedback_message.add_reaction('⬆️')
+        await feedback_message.add_reaction('⬇️')
         await ctx.message.delete()
 
     @commands.has_permissions(administrator=True)
-    @feedback.command(aliases=['r', 'reply'])
+    @feedback.command(aliases=['r', 'reply', 'respond'])
     async def respond(self, ctx, idea_id, *, content=None):
         idea_id = idea_id.upper()
 
@@ -197,6 +197,7 @@ class Feedback(commands.Cog, name="Feedback"):
             cooldown_embed.set_author(
                 name=f"You are on a cooldown for this command!")
             await ctx.send(embed=cooldown_embed)
+
 
 def setup(client):
     client.add_cog(Feedback(client))

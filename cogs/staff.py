@@ -2,8 +2,10 @@ import discord
 from datetime import datetime
 from discord.ext import commands
 
+
 class Staff(commands.Cog, name='Staff commands'):
     """Staff related commands"""
+
     def __init__(self, client):
         self.client = client
 
@@ -11,7 +13,8 @@ class Staff(commands.Cog, name='Staff commands'):
     @commands.group(invoke_without_command=True, hidden=True)
     async def staff(self, ctx):
         ": InfinityCraft 2.∞ Info for Staff"
-        embed = discord.Embed(colour=0x74ff90, description="[] = required argument \n<> = optional argument ",)
+        embed = discord.Embed(
+            colour=0x74ff90, description="[] = required argument \n<> = optional argument ",)
         embed.set_author(name="InfinityCraft 2.∞ Staff Help")
         embed.add_field(
             name="Ticket Help", value=f"`m.staff tickets|ticket|t`", inline=False)
@@ -19,11 +22,12 @@ class Staff(commands.Cog, name='Staff commands'):
             name="Moderation Help", value=f"`m.staff moderation|mod|m`", inline=False)
         embed.add_field(
             name="Important Links", value=f"`m.staff links|link|l`", inline=False)
+        embed.add_field(
+            name="Feedback Help", value=f"`m.staff feedback|fb`", inline=False)
         embed.timestamp = datetime.utcnow()
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
-
 
     @commands.has_permissions(administrator=True)
     @staff.command(aliases=['link', 'l'])
@@ -37,7 +41,6 @@ class Staff(commands.Cog, name='Staff commands'):
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
-
 
     @commands.has_permissions(administrator=True)
     @staff.command(aliases=['mod', 'm'])
@@ -59,7 +62,6 @@ class Staff(commands.Cog, name='Staff commands'):
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
 
-
     @commands.has_permissions(administrator=True)
     @staff.command(aliases=['ticket', 't'])
     async def tickets(self, ctx):
@@ -78,6 +80,23 @@ class Staff(commands.Cog, name='Staff commands'):
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
         await ctx.send(embed=embed)
+
+    @commands.has_permissions(administrator=True)
+    @staff.command(aliases=['fb'])
+    async def feedback(self, ctx):
+        ": Staff Ticket Help"
+        embed = discord.Embed(
+            colour=0x74ff90, description="[] = required argument \n<> = optional argument ",)
+        embed.set_author(name="InfinityCraft 2.∞ Feedback help")
+        embed.add_field(
+            name="Respond to Feedback", value=f"`m.feedback respond|reply|r [feedback id] [response]`", inline=False)
+        embed.add_field(
+            name="Change the Status of the Feedback", value=f"`m.feedback status [feedback id] [status]`", inline=False)
+        embed.timestamp = datetime.utcnow()
+        embed.set_footer(
+            text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+        await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Staff(client))

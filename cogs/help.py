@@ -22,7 +22,7 @@ class Help(commands.Cog, name="help"):
         embed.add_field(name="**Server Info Help**",
                         value="`m.server status` - Displays whether the server is online with player count.\n`m.server ip` - Displays the server IP.\n`m.rules` - List the Discord and Minecraft Server rules.", inline=False)
         embed.add_field(name="Other Help",
-                        value="`m.mojang` - Check the status of Mojang & Minecraft services.", inline=False)
+                        value="`m.mojang` - Check the status of Mojang & Minecraft services.\n`m.vote` - Vote links for the Minecraft server.", inline=False)
         embed.timestamp = datetime.utcnow()
         embed.set_footer(
             text="Marvin", icon_url=f'{self.client.user.avatar_url}')
