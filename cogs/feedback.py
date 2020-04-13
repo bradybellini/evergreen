@@ -72,7 +72,7 @@ class Feedback(commands.Cog, name="Feedback"):
         await ctx.message.delete()
 
     @commands.has_permissions(administrator=True)
-    @feedback.command(aliases=['r', 'reply', 'respond'])
+    @feedback.command(aliases=['r', 'reply', 'response'])
     async def respond(self, ctx, idea_id, *, content=None):
         idea_id = idea_id.upper()
 
