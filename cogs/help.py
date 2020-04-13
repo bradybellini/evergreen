@@ -2,8 +2,10 @@ import discord
 from datetime import datetime
 from discord.ext import commands
 
+
 class Help(commands.Cog, name="help"):
     """Help me!"""
+
     def __init__(self, client):
         self.client = client
 
@@ -11,7 +13,8 @@ class Help(commands.Cog, name="help"):
     async def help(self, ctx):
         embed = discord.Embed(colour=0x74ff90,
                               description="[] = required argument\n<> = optional argument\nThe `|` means you can use either word for the command.\nFor example to submit a ticket you can use `m.ticket` **or** `m.report`,\nwhich is shown below using `|`.\nIf you use the feedback or ticket/report command in the server, your message will be automatically deleted, but it will have been submitted still.", icon_url="https: // i.imgur.com/aCkiWNY.png")
-        embed.set_author(name="InfinityCraft 2.∞ Discord Help", icon_url="https://i.imgur.com/aCkiWNY.png")
+        embed.set_author(name="InfinityCraft 2.∞ Discord Help",
+                         icon_url="https://i.imgur.com/aCkiWNY.png")
         embed.add_field(name="**Ticket Help**",
                         value=f"`m.ticket|report new [content]` - Create a new ticket or report.\n**Please submit tickets and reports in a direct message to {self.client.user.mention}.**", inline=False)
         embed.add_field(name="**Feedback Help**",
