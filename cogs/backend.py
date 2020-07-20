@@ -47,7 +47,7 @@ class Backend(commands.Cog, name="Server sided stuff"):
         data = str({"username": f"{amp_user}", "password": f"{amp_pass}",
                     "token": "", "rememberMe": "true", "SESSIONID": ""})
         async with httpx.AsyncClient() as client:
-            r = await client.post(url, headers=HEADERS, data=data)
+            r = await client.post(url, headers=self.HEADERS, data=data)
 
             url = amp_url_base + 'SendConsoleMessage'
             data = str({"message": f"""{command}""",
