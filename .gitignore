@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 keys.json
-
+test.py
 .vscode/
 .vscode
 
@@ -14,8 +14,6 @@ pipfile
 .lock
 
 
-*.db
-*.sqlite
 # C extensions
 *.so
 
