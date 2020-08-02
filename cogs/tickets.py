@@ -112,7 +112,7 @@ class Tickets(commands.Cog, name="tickets"):
     @commands.has_permissions(administrator=True)
     @ticket.command(aliases=['r', 'reply'])
     async def respond(self, ctx, ticket_id, *,content):
-        ": Reply/Repsond to a ticket"
+        ": Reply/Respond to a ticket"
         ticket_id = ticket_id.upper()
         db = await aiosqlite.connect('marvin.db')
         response_date = int(datetime.utcnow().timestamp())
