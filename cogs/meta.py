@@ -117,6 +117,7 @@ Any Minecraft Server rules that are relevant, such as excessive explicit languag
         await ctx.send(rules_no_format)
 
     @commands.group(invoke_without_command=False, aliases=['info'])
+    @commands.has_permissions(administrator=True)
     async def information(self, ctx):
         help_channel: TextChannel = self.client.get_channel(623702240523321356)
         ticket_channel: TextChannel = self.client.get_channel(
