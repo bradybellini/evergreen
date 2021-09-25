@@ -22,7 +22,7 @@ class OnMemberJoin(commands.Cog, name='On Member Join Listeners and Events'):
 :small_blue_diamond: Last of all, make sure to follow all the rules posted in the {rules_channel.mention} channel. You can also use the command `m.rules` to view all of the rules. 
 :small_blue_diamond: If you have any further questions, feel free to ask a staff member or other members of the community.
 
-Server IP: `mc.gamersgrove.net`
+Server IP: `mc.playinfinitycraft.com`
 Website: https://infinity.gamersgrove.net/
 Discord Invite Link: https://discordapp.com/invite/v67aGnq"""
         await member.send(join_message)

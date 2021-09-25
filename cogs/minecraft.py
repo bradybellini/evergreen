@@ -71,24 +71,24 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
     @server.command()
     async def ip(self, ctx):
         ": Shows the IP address for InfinityCrafy 2.∞"
-        await ctx.send("```mc.gamersgrove.net```")
+        await ctx.send("```mc.playinfinitycraft.com```")
 
     @server.command()
     @commands.cooldown(1, 30, type=commands.BucketType.user)
     async def status(self, ctx):
         ": Get the current status of InfinityCraft 2.∞"
         async with httpx.AsyncClient() as client:
-            r = await client.get('https://api.mcsrvstat.us/2/mc.gamersgrove.net')
-        icon = 'https://api.mcsrvstat.us/icon/mc.gamersgrove.net'
+            r = await client.get('https://api.mcsrvstat.us/2/mc.playinfinitycraft.com')
+        icon = 'https://api.mcsrvstat.us/icon/mc.playinfinitycraft.com'
         data = r.json()
         # players_online = ([players for players in data['players']['list']])
         players = (str(data['players']['online']) + '/' +
                    str(data['players']['max'])) if data['online'] == True else None
         embed = discord.Embed(
-            colour=0x74ff90, description="```IP: mc.gamersgrove.net```",)
+            colour=0x74ff90, description="```IP: mc.playinfinitycraft.com```",)
         embed.set_thumbnail(url=f"{icon}")
         embed.set_author(name="InfinityCraft 2.∞ Status",
-                         url="http://mc.gamersgrove.net")
+                         url="http://mc.playinfinitycraft.com")
         embed.add_field(
             name="MOTD", value=f"{data['motd']['clean'][0] if data['online'] == True else None}", inline=False)
         embed.add_field(
@@ -108,14 +108,14 @@ class Minecraft(commands.Cog, name='Minecraft commands'):
         await self.client.wait_until_ready()
         while not self.client.is_closed():
             async with httpx.AsyncClient() as client:
-                r = await client.get('https://api.mcsrvstat.us/2/mc.gamersgrove.net')
-            icon = 'https://api.mcsrvstat.us/icon/mc.gamersgrove.net'
+                r = await client.get('https://api.mcsrvstat.us/2/mc.playinfinitycraft.com')
+            icon = 'https://api.mcsrvstat.us/icon/mc.playinfinitycraft.com'
             data = r.json()
             embed = discord.Embed(colour=0x74ff90, url="https://discordapp.com",
-                                  description="```IP: mc.gamersgrove.net```",)
+                                  description="```IP: mc.playinfinitycraft.com```",)
             embed.set_thumbnail(url=f"{icon}")
             embed.set_author(name="InfinityCraft 2.∞ Status",
-                             url="http://mc.gamersgrove.net")
+                             url="http://mc.playinfinitycraft.com")
             embed.add_field(
                 name="MOTD", value=f"{data['motd']['clean'][0]}", inline=False)
             embed.add_field(
